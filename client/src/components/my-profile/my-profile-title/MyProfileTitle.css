@@ -1,0 +1,36 @@
+.my-profile-title {
+  font-family: Roboto;
+  font-size: 1.5rem;
+  font-weight: 600;
+  width: fit-content;
+  text-align: center;
+  color: #98C1E8;
+  ;
+}
+
+.my-profile-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.my-profile-title-wrapper .horizontal-line {
+  border: 0.02rem solid #98C1E8;
+  ;
+  width: 15rem;
+  margin-top: .2rem;
+}
+
+@media screen and (min-width: 64rem) {
+  .my-profile-title {
+    font-size: 2.5rem;
+  }
+
+  .my-profile-title-wrapper .horizontal-line {
+    border: 0.0625rem solid #98C1E8;
+    ;
+    width: 30.625rem;
+    margin-top: 0;
+  }
+}

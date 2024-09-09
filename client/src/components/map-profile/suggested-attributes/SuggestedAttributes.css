@@ -1,0 +1,74 @@
+.suggested-attributes-horizontal-line {
+  border: 1px solid rgba(63, 77, 113, 1);
+  top: 673px;
+  left: 362px;
+  margin-bottom: .5rem;
+}
+
+.suggested-text {
+  font-size: 14px;
+  text-align: center;
+  color: #fafafa;
+  font-family: 'Roboto';
+  font-weight: 500;
+}
+
+.suggested-attribute {
+  width: fit-content;
+  padding: .5rem;
+  height: fit-content;
+  border-radius: 10px;
+  border-width: 3px;
+  border-style: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-family: 'Roboto';
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.suggested-attributes-wrapper {
+  margin-top: 8rem;
+}
+
+.suggested-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+}
+
+.color-1 {
+  border-color: rgba(94, 144, 144, 1);
+  background: linear-gradient(101.05deg, #98E8E7 5.79%, #5E9090 104.51%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.color-2 {
+  border-color: rgba(194, 133, 134, 1);
+  background: linear-gradient(101.05deg, #E89899 5.79%, #C28586 104.51%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.color-3 {
+  border-color: rgba(130, 95, 153, 1);
+  background: linear-gradient(95.59deg, #D2A3F0 7.39%, #825F99 107.38%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media screen and (min-width: 1024px) {
+  .suggested-attributes-wrapper {
+    width: 50%;
+    margin: 15rem auto 0 auto;
+  }
+
+  .suggested-attribute {
+    padding: .5rem 2rem;
+  }
+}

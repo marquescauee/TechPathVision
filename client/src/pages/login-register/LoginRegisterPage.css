@@ -1,0 +1,8 @@
+@media screen and (min-width: 1024px) {
+  .login-register-page {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 7rem;
+  }
+}

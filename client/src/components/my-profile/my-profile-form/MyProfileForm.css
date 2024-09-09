@@ -1,0 +1,28 @@
+.my-profile-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.my-profile-page .login-wrapper .dropdown-divider {
+  margin: 2rem 0 0;
+  border-top: 1px solid #98C1E8;
+}
+
+.my-profile-page .login-wrapper {
+  width: 100%;
+  min-height: 25rem;
+  justify-content: space-around;
+  height: auto;
+}
+
+@media screen and (min-width: 1025px) {
+  .my-profile-page .login-wrapper {
+    width: 40%;
+  }
+
+  .my-profile-page {
+    height: unset;
+  }
+}

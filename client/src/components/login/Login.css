@@ -1,0 +1,70 @@
+.label-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.login-title {
+  text-align: center;
+  color: #98C1E8;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.label {
+  font-family: Roboto;
+  font-weight: 600;
+}
+
+.forgot-password {
+  font-family: Roboto;
+  font-weight: 400;
+  margin-top: .5rem;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+input::-ms-reveal {
+  filter: invert(100%);
+}
+
+.forgot-password,
+.forgot-password:hover {
+  color: #fafafa;
+}
+
+.login-wrapper {
+  background: #000;
+  border-radius: 15px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.fields-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.login {
+  margin-top: 2rem;
+  width: 8rem;
+  align-self: center;
+  background: #98C1E8;
+}
+
+@media screen and (min-width: 1024px) {
+  .login-wrapper {
+    width: 70%;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .login-register-page .form-width {
+    display: flex;
+    justify-content: center;
+  }
+}

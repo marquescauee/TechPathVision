@@ -1,0 +1,31 @@
+.map-button {
+  font-family: Roboto;
+  color: rgba(15, 22, 40, 1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 29.3px;
+  text-transform: uppercase;
+  margin: 0 .5rem;
+  height: 50px;
+  border: none;
+  box-shadow: 0 0 0 0 rgba(152, 232, 231, 1);
+  border-radius: 20px;
+  width: 10rem;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(102.2deg, #98E8E7 19.21%, #5E9090 78%);
+  position: fixed;
+  bottom: 4%;
+  right: 3%;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1024px) {
+  .map-button {
+    font-size: 20px;
+    width: 200px;
+    height: 60px;
+  }
+}

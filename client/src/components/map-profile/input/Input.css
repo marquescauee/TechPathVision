@@ -1,0 +1,35 @@
+.input {
+  border-radius: 10px;
+  background: inherit;
+  color: rgba(63, 77, 113, 1);
+  border: 3px solid rgba(63, 77, 113, 1);
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  padding: .5rem 1rem;
+}
+
+.input::placeholder {
+  color: #fafafa;
+  opacity: .8;
+}
+
+.input-description {
+  margin-top: .5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fafafa;
+  font-family: Roboto;
+  line-height: 20px;
+}
+
+@media screen and (min-width: 1024px) {
+  .input-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 50%;
+    margin: 0 auto;
+  }
+}

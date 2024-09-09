@@ -1,0 +1,37 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #0F1628;
+  padding: 0 2rem 5rem 2rem;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: unset;
+}
+
+html,
+body,
+#root {
+  height: 100vh;
+  margin-bottom: 8rem;
+}
+
+@media screen and (min-width: 1366px) {
+  html {
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (min-width: 390px) {
+
+  html,
+  body,
+  #root {
+    margin-bottom: 0;
+  }
+}

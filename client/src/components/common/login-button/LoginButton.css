@@ -1,0 +1,32 @@
+.login-button {
+  width: 6rem;
+  height: 2.5rem;
+  border-radius: 0.9375rem;
+  background: linear-gradient(108.36deg, #98E8BF 21.5%, #5B8B73 87.97%);
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  background-size: 200% auto;
+  color: rgba(15, 22, 40, 1);
+  background-position: left top;
+  border-color: transparent;
+}
+
+@media screen and (min-width: 1024px) {
+  .login-button {
+    width: 10.625rem;
+    height: 3rem;
+    font-size: 18px;
+    transition: all 1s ease-out;
+
+    &:hover {
+      background-position: right bottom;
+      color: #000;
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.label-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  color: #fafafa;
+  margin-top: 2rem;
+}
+
+.register-title {
+  text-align: center;
+  color: #98C1E8;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.label {
+  font-family: Roboto;
+  font-weight: 600;
+}
+
+input::-ms-reveal {
+  filter: invert(100%);
+}
+
+.register-wrapper {
+  background: #000;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.register {
+  margin-top: 2rem;
+  width: 8rem;
+  align-self: center;
+  background: #98C1E8;
+}
+
+.fields-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 1024px) {
+  .register-wrapper {
+    width: 70%;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;
+  }
+}

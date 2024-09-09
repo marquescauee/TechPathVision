@@ -1,0 +1,32 @@
+.home-title {
+  font-family: Roboto;
+  font-size: 1.5rem;
+  font-weight: 600;
+  width: fit-content;
+  text-align: center;
+  color: rgba(178, 255, 254, 1);
+}
+
+.home-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.horizontal-line {
+  border: 0.02rem solid rgba(94, 144, 144, 1);
+  width: 15rem;
+  margin-top: .2rem;
+}
+
+@media screen and (min-width: 64rem) {
+  .home-title {
+    font-size: 2.5rem;
+  }
+
+  .horizontal-line {
+    border: 0.0625rem solid rgba(94, 144, 144, 1);
+    width: 30.625rem;
+    margin-top: 0;
+  }
+}

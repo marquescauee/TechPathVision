@@ -1,0 +1,57 @@
+.selected-attributes-wrapper {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.selected-attribute {
+  position: relative;
+  width: fit-content;
+  padding: .5rem;
+  height: fit-content;
+  border-radius: 10px;
+  border-width: 3px;
+  border-style: solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-family: 'Roboto';
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.selected-attribute::after {
+  content: '';
+  background-image: url(assets/delete.png);
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+
+@media screen and (min-width: 1024px) {
+  .selected-attributes-wrapper {
+    width: 50%;
+    margin: 2rem auto;
+  }
+
+  .selected-attribute {
+    padding: .5rem 2rem;
+    position: relative;
+  }
+
+  .selected-attribute::after {
+    content: '';
+    background-image: url(assets/delete.png);
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+}

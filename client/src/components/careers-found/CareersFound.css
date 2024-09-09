@@ -1,0 +1,161 @@
+.careers-found-title {
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 46.88px;
+  color: rgba(178, 255, 254, 1);
+  text-align: center;
+}
+
+.careers-found-description {
+  color: #fafafa;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 2rem 0;
+  text-align: justify;
+  line-height: 26px;
+}
+
+.careers-found-read-more {
+  display: block;
+  color: #98E8BF;
+  margin-top: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.careers-found-read-more:hover {
+  display: block;
+  color: #5B8B73;
+  margin-top: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: 1s ease-in-out;
+}
+
+.careers-found-header {
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 46.88px;
+  color: #98C1E8;
+  text-align: center;
+}
+
+.careers-found-header-wrapper {
+  margin-bottom: 4rem;
+}
+
+.careers-found-horizontal-line {
+  border: 1px solid rgba(63, 77, 113, 1);
+  margin-bottom: .5rem;
+}
+
+.modal-title {
+  width: 100%;
+  text-align: center;
+}
+
+.modal-header {
+  position: relative;
+  border-bottom: 1px solid #98C1E8;
+}
+
+.modal-header .modal-title {
+  font-size: 30px;
+  color: rgba(178, 255, 254, 1);
+}
+
+.generate-roadmap {
+  font-family: Roboto;
+  color: rgba(15, 22, 40, 1);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 29.3px;
+  text-transform: uppercase;
+  margin: 0 .5rem;
+  height: 50px;
+  border: none;
+  box-shadow: 0 0 0 0 rgba(152, 232, 231, 1);
+  border-radius: 20px;
+  width: 12rem;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(102.2deg, #98E8E7 19.21%, #5E9090 78%);
+  position: sticky;
+  bottom: 3%;
+  left: 100%;
+  cursor: pointer;
+}
+
+.modal-footer {
+  border: none;
+}
+
+.modal-dialog {
+  margin: 0;
+}
+
+.modal-content {
+  margin: 0;
+  border: none;
+  background-color: #0F1628;
+  color: #fafafa;
+}
+
+.close {
+  position: absolute;
+  right: 3%;
+  top: 10%;
+  color: #fafafa;
+}
+
+.modal-body-paragraphs {
+  text-align: justify;
+  width: 95%;
+  margin: 0 auto;
+  line-height: 28px;
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .careers-found-wrapper {
+    display: flex;
+    gap: 5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .career-found {
+    max-width: 45%;
+  }
+
+  .modal-dialog {
+    margin: 0 auto;
+    min-width: 95%;
+  }
+
+  .modal-body-paragraphs {
+    font-size: 20px;
+  }
+
+  .modal-content {
+    margin: 1rem;
+  }
+}
+
+@media screen and (min-width: 650px) {
+  .careers-found-horizontal-line {
+    width: 550px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 570px) {
+  .modal-dialog {
+    max-width: unset;
+  }
+}
