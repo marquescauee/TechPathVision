@@ -1,4 +1,5 @@
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -8,7 +9,6 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from users.serializers import UserSerializer
 from django.core.mail import send_mail
-from django.urls import reverse
 from users.models import PasswordResetToken
 from .serializers import PasswordResetRequestSerializer, PasswordResetConfirmSerializer
 
@@ -50,10 +50,13 @@ def password_reset_request(request):
     serializer = PasswordResetRequestSerializer(data=request.data)
     if serializer.is_valid():
         email = serializer.validated_data['email']
-        user = User.objects.get(email=email)
-        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({"detail": "User with this email does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
         token = PasswordResetToken.objects.create(user=user)
-        reset_link = request.build_absolute_uri(reverse('password_reset_confirm', kwargs={'token': token.token}))
+        reset_link = f'{settings.FRONTEND_URL}/password-reset-confirm/{token.token}'
         
         send_mail(
             'Password Reset Request',
@@ -66,7 +69,6 @@ def password_reset_request(request):
         return Response({"detail": "Password reset email has been sent."}, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 @api_view(['POST'])
 def password_reset_confirm(request, token):
     serializer = PasswordResetConfirmSerializer(data=request.data)

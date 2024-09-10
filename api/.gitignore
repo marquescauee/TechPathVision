@@ -142,6 +142,7 @@ GitHub.sublime-settings
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+migrations
 
 #settings
 settings.py
