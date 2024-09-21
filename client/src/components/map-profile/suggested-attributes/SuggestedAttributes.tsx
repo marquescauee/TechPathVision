@@ -5,15 +5,15 @@ import './SuggestedAttributes.css'
 const SuggestedAttributes = () => {
   const { suggestedAttributes, setSelectedAttributes, selectedAttributes } = useAttributesContext()
 
-  const handleAddAttribute = (attribute: Attribute, id: string) => {
+  const handleAddAttribute = (attribute: Attribute, id: string, classNumber: number) => {
     const alreadyAdded = selectedAttributes.find(
       (currentAttribute) => currentAttribute.value === attribute.value
     )
 
     if (alreadyAdded) return
 
+    attribute.classNumber = classNumber
     setSelectedAttributes((prevSelected) => [...(prevSelected || []), attribute])
-
     document.getElementsByClassName(`suggested-${id}`)[0]?.classList.add('disabled')
   }
 
@@ -30,7 +30,7 @@ const SuggestedAttributes = () => {
             <button
               key={`${attribute.value}--${index}`}
               className={`suggested-attribute color-${classNumber} suggested-${attribute.value}`}
-              onClick={() => handleAddAttribute(attribute, `${attribute.value}`)}>
+              onClick={() => handleAddAttribute(attribute, `${attribute.value}`, classNumber)}>
               {attribute.label.toUpperCase()}
             </button>
           )

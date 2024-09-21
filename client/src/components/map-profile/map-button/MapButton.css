@@ -22,6 +22,47 @@
   cursor: pointer;
 }
 
+.map-button:disabled {
+  opacity: .3;
+}
+
+.map-button-wrapper {
+  position: relative;
+}
+
+.map-button-wrapper {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  width: 250px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  text-align: center;
+  font-family: 'Roboto';
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  right: 0;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.map-button-wrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+
 @media screen and (min-width: 1024px) {
   .map-button {
     font-size: 20px;

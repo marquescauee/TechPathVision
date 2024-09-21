@@ -7,12 +7,12 @@ import { AttributesProvider } from '../../contexts/useAttributesContext'
 const MapProfilePage = () => {
   return (
     <>
-      <Input />
       <AttributesProvider>
+        <Input />
         <SelectedAttributes />
         <SuggestedAttributes />
+        <MapButton />
       </AttributesProvider>
-      <MapButton />
     </>
   )
 }

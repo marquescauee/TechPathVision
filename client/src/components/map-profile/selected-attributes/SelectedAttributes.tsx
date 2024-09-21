@@ -16,17 +16,14 @@ const SelectedAttributes = () => {
   return (
     <div className="selected-attributes-wrapper">
       <div className="suggested-attributes">
-        {selectedAttributes?.map((attribute, index) => {
-          const classNumber = (index % 3) + 1
-          return (
-            <button
-              key={`${attribute.value}--${index}`}
-              className={`selected-attribute color-${classNumber}`}
-              onClick={() => removeAttributeFromSelected(attribute, `${attribute.value}`)}>
-              {attribute.label.toUpperCase()}
-            </button>
-          )
-        })}
+        {selectedAttributes?.map((attribute) => (
+          <button
+            key={attribute.value}
+            className={`selected-attribute color-${attribute.classNumber}`}
+            onClick={() => removeAttributeFromSelected(attribute, attribute.value)}>
+            {attribute.label.toUpperCase()}
+          </button>
+        ))}
       </div>
     </div>
   )

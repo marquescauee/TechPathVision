@@ -1,7 +1,11 @@
 .input {
   border-radius: 10px;
   background: inherit;
-  color: rgba(63, 77, 113, 1);
+  background-image: url(assets/enter-arrow.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  color: #B2FFFE;
   border: 3px solid rgba(63, 77, 113, 1);
   font-family: Roboto;
   font-size: 14px;
