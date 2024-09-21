@@ -1,6 +1,22 @@
+import { useAttributesContext } from '../../../contexts/useAttributesContext'
+import { Attribute } from '../../../interfaces/Attribute'
 import './SuggestedAttributes.css'
 
 const SuggestedAttributes = () => {
+  const { suggestedAttributes, setSelectedAttributes, selectedAttributes } = useAttributesContext()
+
+  const handleAddAttribute = (attribute: Attribute, id: string) => {
+    const alreadyAdded = selectedAttributes.find(
+      (currentAttribute) => currentAttribute.value === attribute.value
+    )
+
+    if (alreadyAdded) return
+
+    setSelectedAttributes((prevSelected) => [...(prevSelected || []), attribute])
+
+    document.getElementsByClassName(`suggested-${id}`)[0]?.classList.add('disabled')
+  }
+
   return (
     <div className="suggested-attributes-wrapper">
       <div className="suggested-attributes-description">
@@ -8,16 +24,17 @@ const SuggestedAttributes = () => {
         <div className="suggested-text">Caso esteja sem ideias, alguns exemplos:</div>
       </div>
       <div className="suggested-attributes">
-        <div className="suggested-attribute color-1">NODEJS</div>
-        <div className="suggested-attribute color-2">PERSISTENTE</div>
-        <div className="suggested-attribute color-3">PYTHON</div>
-        <div className="suggested-attribute color-1">PACIENTE</div>
-        <div className="suggested-attribute color-2">COMUNICATIVO</div>
-        <div className="suggested-attribute color-3">ANALÍTICO</div>
-        <div className="suggested-attribute color-1">PHP</div>
-        <div className="suggested-attribute color-2">HARDWARE</div>
-        <div className="suggested-attribute color-3">AUTOMAÇÃO</div>
-        <div className="suggested-attribute color-1">PACIENTE</div>
+        {suggestedAttributes?.map((attribute, index) => {
+          const classNumber = (index % 3) + 1
+          return (
+            <button
+              key={`${attribute.value}--${index}`}
+              className={`suggested-attribute color-${classNumber} suggested-${attribute.value}`}
+              onClick={() => handleAddAttribute(attribute, `${attribute.value}`)}>
+              {attribute.label.toUpperCase()}
+            </button>
+          )
+        })}
       </div>
     </div>
   )

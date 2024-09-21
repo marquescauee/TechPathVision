@@ -27,6 +27,7 @@
   font-family: 'Roboto';
   text-align: center;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .suggested-attributes-wrapper {
@@ -60,6 +61,11 @@
   background: linear-gradient(95.59deg, #D2A3F0 7.39%, #825F99 107.38%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.disabled {
+  opacity: .5;
+  pointer-events: none;
 }
 
 @media screen and (min-width: 1024px) {
