@@ -1,10 +1,6 @@
 .input {
   border-radius: 10px;
   background: inherit;
-  background-image: url(assets/enter-arrow.png);
-  background-repeat: no-repeat;
-  background-position: right;
-  background-size: contain;
   color: #B2FFFE;
   border: 3px solid rgba(63, 77, 113, 1);
   font-family: Roboto;
@@ -12,6 +8,13 @@
   font-weight: 600;
   width: 100%;
   padding: .5rem 1rem;
+}
+
+.map-attributes-input {
+  background-image: url(assets/enter-arrow.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
 }
 
 .input::placeholder {

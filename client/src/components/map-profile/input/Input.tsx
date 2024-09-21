@@ -32,7 +32,7 @@ const Input = () => {
   return (
     <div className="input-wrapper">
       <input
-        className="input"
+        className="input map-attributes-input"
         type="text"
         placeholder={`Escreva aqui alguns atributos sobre você ${!isMobile ? 'ou interesses' : ''}`}
         onKeyDown={handleAddAttribute}
