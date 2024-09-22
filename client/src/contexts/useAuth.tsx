@@ -28,6 +28,7 @@ interface AuthContextType {
   login: (user: User) => Promise<{
     error?: string
   }>
+  requestResetPassword: (email: string) => Promise<{ error?: string }>
   logout: () => void
   getTokens: () => LocalStorageItems
 }
@@ -120,8 +121,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user')
   }
 
+  const requestResetPassword = async (email: string): Promise<{ error?: string }> => {
+    try {
+      const response = await fetch(`${BASE_BACKEND_URL}/password-reset-request`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email })
+      })
+
+      if (!response.ok) {
+        return { error: await response.json() }
+      }
+
+      return {}
+    } catch (e) {
+      return { error: 'Erro ao enviar e-mail' }
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, setTokens, register, logout, login, getTokens }}>
+    <AuthContext.Provider
+      value={{ user, token, setTokens, register, logout, login, getTokens, requestResetPassword }}>
       {children}
     </AuthContext.Provider>
   )

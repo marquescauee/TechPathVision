@@ -107,7 +107,7 @@ const Login = () => {
               <span className="error">A senha deve ter entre 8 e 16 caracteres.</span>
             )}
             {errorMessage && <span className="error">Usuário e/ou senha inválidos.</span>}
-            <a href="#" className="forgot-password">
+            <a href="/forgot-password" className="forgot-password">
               Esqueceu sua senha?
             </a>
           </div>
