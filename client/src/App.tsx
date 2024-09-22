@@ -9,25 +9,27 @@ import RoadmapPage from './pages/view-roadmap/RoadmapPage'
 import ForgotPasswordPage from './pages/forgot-password/ForgotPasswordPage'
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage'
 import MyProfilePage from './pages/my-profile-page/MyProfilePage'
+import { AuthProvider } from './contexts/useAuth'
 
 const App = () => {
   return (
     <>
-      <Header />
-
       <BrowserRouter>
-        <Routes>
-          <Route element={<HomePage />} path="/"></Route>
-          <Route element={<MapProfilePage />} path="/map-profile"></Route>
-          <Route element={<Career />} path="/careers-found"></Route>
-          <Route element={<RoadmapPage />} path="/generated-roadmap"></Route>
-          <Route element={<LoginRegisterPage />} path="/login"></Route>
-          <Route element={<LoginRegisterPage />} path="/register"></Route>
-          <Route element={<ForgotPasswordPage />} path="/forgot-password"></Route>
-          <Route element={<ChangePasswordPage />} path="/set-new-password"></Route>
-          <Route element={<MyProfilePage />} path="/my-profile"></Route>
-          <Route path="*" element={<HomePage />}></Route>
-        </Routes>
+        <AuthProvider>
+          <Header />
+          <Routes>
+            <Route element={<HomePage />} path="/"></Route>
+            <Route element={<MapProfilePage />} path="/map-profile"></Route>
+            <Route element={<Career />} path="/careers-found"></Route>
+            <Route element={<RoadmapPage />} path="/generated-roadmap"></Route>
+            <Route element={<LoginRegisterPage />} path="/login"></Route>
+            <Route element={<LoginRegisterPage />} path="/register"></Route>
+            <Route element={<ForgotPasswordPage />} path="/forgot-password"></Route>
+            <Route element={<ChangePasswordPage />} path="/set-new-password"></Route>
+            <Route element={<MyProfilePage />} path="/my-profile"></Route>
+            <Route path="*" element={<HomePage />}></Route>
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </>
   )

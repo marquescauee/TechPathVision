@@ -1,18 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LoginButton from '../login-button/LoginButton'
 import Logo from '../logo/Logo'
 import './Header.css'
+import { useAuth } from '../../../contexts/useAuth'
 
 const Header = () => {
+  const { logout, getTokens } = useAuth()
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const [userName, setUserName] = useState<string>('')
+
+  useEffect(() => {
+    const { token, user } = getTokens()
+    if (token && user) {
+      setIsLoggedIn(true)
+      setUserName(user.first_name.split(' ')[0])
+    } else {
+      setIsLoggedIn(false)
+      setUserName('')
+    }
+  }, [getTokens])
 
   return (
     <header className="header">
       <Logo />
       {!isLoggedIn ? (
-        <div onClick={() => setIsLoggedIn(true)}>
+        <a href="/login" className="login-redirect-wrapper">
           <LoginButton />
-        </div>
+        </a>
       ) : (
         <>
           <a
@@ -23,7 +37,7 @@ const Header = () => {
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false">
-            Olá, Cauê!
+            Olá, {userName}!
           </a>
           <div className="dropdown-menu logged-dropdown-menu" aria-labelledby="navbarDropdown">
             <a className="dropdown-item logged-dropdown-item" href="#">
@@ -33,10 +47,7 @@ const Header = () => {
               Meus Roadmaps
             </a>
             <div className="dropdown-divider logged-dropdown-divider"></div>
-            <a
-              onClick={() => setIsLoggedIn(false)}
-              className="dropdown-item logged-dropdown-item"
-              href="#">
+            <a onClick={() => logout()} className="dropdown-item logged-dropdown-item" href="#">
               Sair
             </a>
           </div>
