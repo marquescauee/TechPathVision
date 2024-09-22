@@ -70,7 +70,7 @@
 .generate-roadmap {
   font-family: Roboto;
   color: rgba(15, 22, 40, 1);
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 29.3px;
   text-transform: uppercase;
@@ -79,7 +79,7 @@
   border: none;
   box-shadow: 0 0 0 0 rgba(152, 232, 231, 1);
   border-radius: 20px;
-  width: 12rem;
+  width: 15rem;
   padding: 0 2rem;
   display: flex;
   justify-content: center;

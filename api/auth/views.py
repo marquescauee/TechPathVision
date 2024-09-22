@@ -22,7 +22,7 @@ def login(request):
 
     user = get_object_or_404(User, email=email)
     if not user.check_password(password):
-        return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"detail": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
     token, created = Token.objects.get_or_create(user=user)
     serializer = UserSerializer(instance=user)
@@ -35,7 +35,7 @@ def signup(request):
     if serializer.is_valid():
         user = serializer.save()
         token = Token.objects.create(user=user)
-        return Response({"token": token.key, "user": serializer.data})
+        return Response({"token": token.key, "user": serializer.data}, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

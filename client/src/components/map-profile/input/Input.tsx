@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import './Input.css'
 import { useAttributesContext } from '../../../contexts/useAttributesContext'
 
-const Input = () => {
+const MapAttributesInput = () => {
   const { selectedAttributes, setSelectedAttributes } = useAttributesContext()
   const [isMobile, setIsMobile] = useState<boolean>(false)
 
@@ -44,4 +44,4 @@ const Input = () => {
   )
 }
 
-export default Input
+export default MapAttributesInput
