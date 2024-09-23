@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useAuth } from '../../contexts/useAuth'
 import './ChangePassword.css'
 import Spinner from '../spinner/Spinner'
+import { validatePasswordLength } from '../../utils/validatePasswordLength'
+import { validatePasswordsMatch } from '../../utils/validatePasswordsMatch'
 
 interface ChangePasswordProps {
   newPassword: string
@@ -11,7 +13,13 @@ interface ChangePasswordProps {
 interface ChangePasswordErrors {
   newPasswordError: boolean
   confirmNewPasswordError: boolean
-  passwordsDontMatch: boolean
+  passwordsMatch: boolean
+}
+
+const ERRORS = {
+  newPasswordError: false,
+  confirmNewPasswordError: false,
+  passwordsMatch: false
 }
 
 const ChangePassword = () => {
@@ -25,7 +33,7 @@ const ChangePassword = () => {
   const [formErrors, setFormErrors] = useState<ChangePasswordErrors>({
     newPasswordError: false,
     confirmNewPasswordError: false,
-    passwordsDontMatch: false
+    passwordsMatch: false
   })
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -41,36 +49,17 @@ const ChangePassword = () => {
     setFormErrors({
       newPasswordError: false,
       confirmNewPasswordError: false,
-      passwordsDontMatch: false
+      passwordsMatch: false
     })
 
-    const errors = {
-      newPasswordError: false,
-      confirmNewPasswordError: false,
-      passwordsDontMatch: false
-    }
+    ERRORS.newPasswordError = validatePasswordLength(passwordData.newPassword)
+    ERRORS.confirmNewPasswordError = validatePasswordLength(passwordData.confirmNewPassword)
+    ERRORS.passwordsMatch = validatePasswordsMatch(
+      passwordData.newPassword,
+      passwordData.confirmNewPassword
+    )
 
-    if (
-      !passwordData.newPassword.trim() ||
-      passwordData.newPassword.length < 8 ||
-      passwordData.newPassword.length > 16
-    ) {
-      errors.newPasswordError = true
-    }
-
-    if (
-      !passwordData.confirmNewPassword.trim() ||
-      passwordData.confirmNewPassword.length < 8 ||
-      passwordData.confirmNewPassword.length > 16
-    ) {
-      errors.confirmNewPasswordError = true
-    }
-
-    if (passwordData.newPassword !== passwordData.confirmNewPassword) {
-      errors.passwordsDontMatch = true
-    }
-
-    setFormErrors(errors)
+    setFormErrors(ERRORS)
 
     const hasErrors = Object.values(formErrors).some((error) => error)
 
@@ -79,19 +68,18 @@ const ChangePassword = () => {
       return
     }
 
-    const token = window.location.pathname.split('/')[2]
-
-    const response = await changePassword(passwordData.newPassword, token)
+    const urlToken = window.location.pathname.split('/')[2]
+    const response = await changePassword(passwordData.newPassword, urlToken)
 
     if (Object.keys(response).includes('token')) {
       setErrorMessage('Token expirado. Por favor, solicite a redefinição de senha novamente.')
     }
 
-    setLoading(false)
-
     if (response.data) {
       await login({ email: response.data.user.email, password: passwordData.newPassword })
     }
+
+    setLoading(false)
   }
 
   return (
@@ -135,7 +123,7 @@ const ChangePassword = () => {
               {formErrors.confirmNewPasswordError && !errorMessage && (
                 <span className="error">A senha deve ter entre 8 e 16 caracteres.</span>
               )}
-              {formErrors.passwordsDontMatch && !errorMessage && (
+              {!formErrors.passwordsMatch && !errorMessage && (
                 <span className="error">As senhas não são iguais.</span>
               )}
               {errorMessage && <span className="error">{errorMessage}</span>}

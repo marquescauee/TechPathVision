@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './Login.css'
 import { useAuth } from '../../contexts/useAuth'
+import { isValidEmail } from '../../utils/isValidEmail'
+import { validatePasswordLength } from '../../utils/validatePasswordLength'
 
 interface LoginUser {
   email: string
@@ -12,7 +14,10 @@ interface LoginUserErrors {
   passwordError: boolean
 }
 
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/g
+const ERRORS = {
+  emailError: false,
+  passwordError: false
+}
 
 const Login = () => {
   const { login } = useAuth()
@@ -39,26 +44,13 @@ const Login = () => {
     })
     setErrorMessage('')
 
-    const errors = {
-      emailError: false,
-      passwordError: false
-    }
+    ERRORS.emailError = !isValidEmail(userData.email)
+    ERRORS.passwordError = validatePasswordLength(userData.password)
 
-    if (!userData.email.trim() || !userData.email.match(EMAIL_REGEX)) {
-      errors.emailError = true
-    }
+    setFormErrors(ERRORS)
 
-    if (
-      !userData.password.trim() ||
-      userData.password.length < 8 ||
-      userData.password.length > 16
-    ) {
-      errors.passwordError = true
-    }
+    const hasErrors = Object.values(ERRORS).some((error) => error)
 
-    setFormErrors(errors)
-
-    const hasErrors = Object.values(errors).some((error) => error)
     if (hasErrors) return
 
     const response = await login(userData)

@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import './Register.css'
 import { useAuth } from '../../contexts/useAuth'
+import { validateNameLength } from '../../utils/validateNameLength'
+import { isValidEmail } from '../../utils/isValidEmail'
+import { validatePasswordLength } from '../../utils/validatePasswordLength'
 
 interface RegisterUser {
   first_name: string
@@ -13,8 +16,6 @@ interface RegisterUserErrors {
   emailError: boolean
   passwordError: boolean
 }
-
-const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/g
 
 const Register = () => {
   const { register } = useAuth()
@@ -51,21 +52,9 @@ const Register = () => {
 
     setErrorMessage('')
 
-    if (!userData.first_name.trim() || userData.first_name.length < 2) {
-      errors.nameError = true
-    }
-
-    if (!userData.email.trim() || !userData.email.match(EMAIL_REGEX)) {
-      errors.emailError = true
-    }
-
-    if (
-      !userData.password.trim() ||
-      userData.password.length < 8 ||
-      userData.password.length > 16
-    ) {
-      errors.passwordError = true
-    }
+    errors.nameError = !validateNameLength(userData.first_name)
+    errors.emailError = isValidEmail(userData.email)
+    errors.passwordError = validatePasswordLength(userData.password)
 
     setFormErrors(errors)
 

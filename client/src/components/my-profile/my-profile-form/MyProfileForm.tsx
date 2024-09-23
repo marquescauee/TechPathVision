@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useAuth } from '../../../contexts/useAuth'
 import './MyProfileForm.css'
 import Spinner from '../../spinner/Spinner'
+import { validateNameLength } from '../../../utils/validateNameLength'
+import { validatePasswordLength } from '../../../utils/validatePasswordLength'
 
 interface ChangeDataErrors {
   nameError: boolean
@@ -16,6 +18,15 @@ interface UpdateUserData {
   first_name: string
   email: string
   password: string
+}
+
+const ERRORS = {
+  nameError: false,
+  newPasswordError: false,
+  confirmPasswordError: false,
+  confirmPasswordNotFilled: false,
+  passwordNotFilled: false,
+  currentPasswordWrong: false
 }
 
 const MyProfileForm = () => {
@@ -37,7 +48,6 @@ const MyProfileForm = () => {
   })
 
   const [loading, setLoading] = useState<boolean>(false)
-
   const [newPassword, setNewPassword] = useState<string>('')
 
   const handleChangeData = async (e: React.FormEvent) => {
@@ -55,42 +65,22 @@ const MyProfileForm = () => {
       currentPasswordWrong: false
     })
 
-    const errors = {
-      nameError: false,
-      newPasswordError: false,
-      confirmPasswordError: false,
-      confirmPasswordNotFilled: false,
-      passwordNotFilled: false,
-      currentPasswordWrong: false
-    }
-
-    if (!userData.first_name.trim() || userData.first_name.length < 2) {
-      errors.nameError = true
-    }
+    ERRORS.nameError = !validateNameLength(userData.first_name)
 
     if (userData.password && !newPassword) {
-      errors.confirmPasswordNotFilled = true
+      ERRORS.confirmPasswordNotFilled = true
     }
 
     if (!userData.password && newPassword) {
-      errors.passwordNotFilled = true
+      ERRORS.passwordNotFilled = true
     }
 
     if (userData.password) {
-      if (
-        !userData.password.trim() ||
-        userData.password.length < 8 ||
-        userData.password.length > 16
-      ) {
-        errors.newPasswordError = true
-      }
-
-      if (!newPassword.trim() || newPassword.length < 8 || newPassword.length > 16) {
-        errors.confirmPasswordError = true
-      }
+      ERRORS.newPasswordError = validatePasswordLength(userData.password)
+      ERRORS.confirmPasswordError = validatePasswordLength(newPassword)
     }
 
-    setFormErrors(errors)
+    setFormErrors(ERRORS)
 
     const hasErrors = Object.values(formErrors).some((error) => error)
 
@@ -107,7 +97,7 @@ const MyProfileForm = () => {
 
     if (typeof response === 'object' && response !== null && 'error' in response) {
       if (response.error === 'Current password is wrong') {
-        setFormErrors({ ...errors, currentPasswordWrong: true })
+        setFormErrors({ ...ERRORS, currentPasswordWrong: true })
         setLoading(false)
         return
       }
