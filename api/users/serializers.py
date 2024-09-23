@@ -38,7 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
-    current_password = serializers.CharField(write_only=True, required=False)
+    current_password = serializers.CharField(write_only=True, required=False, allow_blank=True)
     new_password = serializers.CharField(write_only=True, required=False, allow_blank=True)
     first_name = serializers.CharField(required=False)
 
@@ -50,16 +50,17 @@ class UserProfileUpdateSerializer(serializers.ModelSerializer):
         if 'first_name' in validated_data:
             instance.first_name = validated_data['first_name']
 
-            if not instance.check_password(validated_data['current_password']):
-                raise serializers.ValidationError({"detail": "Current password does not match"})
-            
-            new_password = validated_data.get('new_password', '')
+            if 'current_password' in validated_data and validated_data['current_password']:
+                if not instance.check_password(validated_data['current_password']):
+                    raise serializers.ValidationError({"detail": "Current password is wrong."})
 
-            if len(new_password) < 8 or len(new_password) > 16:
-                raise serializers.ValidationError({"detail": "Password must be between 8 and 16 characters."})
+                if validated_data['current_password'] and validated_data['new_password']:                
+                    new_password = validated_data.get('new_password', '')
 
-            if new_password and new_password != validated_data['current_password']:
-                instance.set_password(validated_data['new_password'])
+                    if len(new_password) < 8 or len(new_password) > 16:
+                        raise serializers.ValidationError({"detail": "Password must be between 8 and 16 characters."})
+
+                    instance.set_password(validated_data['new_password'])
         
         instance.save()
         return instance

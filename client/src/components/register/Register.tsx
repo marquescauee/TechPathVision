@@ -43,14 +43,20 @@ const Register = () => {
       passwordError: false
     })
 
+    const errors = {
+      nameError: false,
+      emailError: false,
+      passwordError: false
+    }
+
     setErrorMessage('')
 
     if (!userData.first_name.trim() || userData.first_name.length < 2) {
-      setFormErrors((prev) => ({ ...prev, nameError: true }))
+      errors.nameError = true
     }
 
     if (!userData.email.trim() || !userData.email.match(EMAIL_REGEX)) {
-      setFormErrors((prev) => ({ ...prev, emailError: true }))
+      errors.emailError = true
     }
 
     if (
@@ -58,8 +64,10 @@ const Register = () => {
       userData.password.length < 8 ||
       userData.password.length > 16
     ) {
-      setFormErrors((prev) => ({ ...prev, passwordError: true }))
+      errors.passwordError = true
     }
+
+    setFormErrors(errors)
 
     const hasErrors = Object.values(formErrors).some((error) => error)
 

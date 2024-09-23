@@ -64,9 +64,7 @@ const Login = () => {
     const response = await login(userData)
 
     if (response.error) {
-      if (Object.values(response.error)[0].toLowerCase().includes('invalid credentials')) {
-        setErrorMessage('Usuário e/ou senha inválidos.')
-      }
+      setErrorMessage('Usuário e/ou senha inválidos.')
     }
   }
 

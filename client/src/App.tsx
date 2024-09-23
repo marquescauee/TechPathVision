@@ -9,7 +9,17 @@ import RoadmapPage from './pages/view-roadmap/RoadmapPage'
 import ForgotPasswordPage from './pages/forgot-password/ForgotPasswordPage'
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage'
 import MyProfilePage from './pages/my-profile-page/MyProfilePage'
-import { AuthProvider } from './contexts/useAuth'
+import { AuthProvider, useAuth } from './contexts/useAuth'
+
+type PrivateRoutesProps = {
+  Item: React.FC
+}
+
+const PrivateRoutes = ({ Item }: PrivateRoutesProps) => {
+  const { getCredentials } = useAuth()
+
+  return getCredentials().token && getCredentials().user ? <Item /> : <LoginRegisterPage />
+}
 
 const App = () => {
   return (
@@ -26,7 +36,9 @@ const App = () => {
             <Route element={<LoginRegisterPage />} path="/register"></Route>
             <Route element={<ForgotPasswordPage />} path="/forgot-password"></Route>
             <Route element={<ChangePasswordPage />} path="/set-new-password/:token"></Route>
-            <Route element={<MyProfilePage />} path="/my-profile"></Route>
+
+            <Route element={<PrivateRoutes Item={MyProfilePage} />} path="/my-profile"></Route>
+
             <Route path="*" element={<HomePage />}></Route>
           </Routes>
         </AuthProvider>

@@ -1,5 +1,5 @@
 export interface UserData {
-  token: string
+  token?: string
   user: {
     first_name: string
     email: string

@@ -57,7 +57,7 @@ input::-ms-reveal {
 @media screen and (min-width: 1024px) {
   .login-wrapper {
     width: 70%;
-    height: 550px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -17,6 +17,11 @@
   height: auto;
 }
 
+.my-profile-page .input-email-my-profile {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
 @media screen and (min-width: 1025px) {
   .my-profile-page .login-wrapper {
     width: 40%;

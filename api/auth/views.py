@@ -84,11 +84,16 @@ def password_reset_confirm(request, token):
         
         reset_token = PasswordResetToken.objects.get(token=token)
         user = reset_token.user
-        
+
         user.set_password(new_password)
         user.save()
         reset_token.delete()
         
-        return Response({"detail": "Password has been reset successfully."}, status=status.HTTP_200_OK)
+        return Response({
+            "user": {
+                "first_name": user.first_name,
+                "email": user.email,
+            },
+        }, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

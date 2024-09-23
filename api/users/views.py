@@ -13,11 +13,16 @@ from rest_framework.exceptions import ValidationError
 def update_user(request):
     user = request.user
     serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
-    
+
     if serializer.is_valid():
         try:
             serializer.save()
-            return Response({"detail": "Profile updated successfully."}, status=status.HTTP_200_OK)
+            return  Response({
+                "user": {
+                    "first_name": user.first_name,
+                    "email": user.email,
+                },
+            }, status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
     

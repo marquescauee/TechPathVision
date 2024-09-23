@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { BASE_BACKEND_URL } from '../routes/settings'
-import { UserData } from '../interfaces/UserData'
+import React, { createContext, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
-interface User {
-  email: string
-  first_name?: string
-  password?: string
-}
+import {
+  changePasswordRequest,
+  loginRequest,
+  passwordResetRequest,
+  registerRequest
+} from '../routes/auth'
+import { UpdatedUser, User } from '../interfaces/User'
+import { updateUserRequest, UpdateUserResponse } from '../routes/myAccount'
 
 interface LocalStorageItems {
   token: string
@@ -21,7 +20,7 @@ interface LocalStorageItems {
 interface AuthContextType {
   user: User | null
   token: string | null
-  setCredentials: (token: string, user: User) => void
+  setCredentials: (user: User, token?: string) => void
   register: (user: User) => Promise<{
     error?: string
   }>
@@ -29,8 +28,13 @@ interface AuthContextType {
     error?: string
   }>
   requestResetPassword: (email: string) => Promise<{ error?: string }>
+  changePassword: (
+    newPassword: string,
+    token: string
+  ) => Promise<{ error?: string; data?: { user: { email: string; first_name: string } } }>
   logout: () => void
   getCredentials: () => LocalStorageItems
+  updateUser: (user: UpdatedUser) => Promise<UpdateUserResponse | { error: string }>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -40,10 +44,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(null)
   const navigate = useNavigate()
 
-  const setCredentials = (token: string, user: User) => {
+  const setCredentials = (user: User, token?: string) => {
+    if (token) {
+      setToken(token)
+      localStorage.setItem('token', token)
+    }
+
     setUser(user)
-    setToken(token)
-    localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(user))
   }
 
@@ -57,61 +64,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }
 
   const register = async (user: User): Promise<{ error?: string }> => {
-    try {
-      const response = await fetch(`${BASE_BACKEND_URL}/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-      })
+    const data = await registerRequest(user)
 
-      if (!response.ok) {
-        return { error: await response.json() }
-      }
+    if (data.error) {
+      return { error: 'Erro ao realizar login' }
+    }
 
-      const data: UserData = await response.json()
-
-      setCredentials(data.token, {
+    setCredentials(
+      {
         email: data.user.email,
         first_name: data.user.first_name
-      })
+      },
+      data.token
+    )
 
-      navigate('/')
+    navigate('/my-profile')
 
-      return {}
-    } catch (e) {
-      return { error: 'Erro ao realizar cadastro' }
-    }
+    return {}
   }
 
   const login = async (userData: User): Promise<{ error?: string }> => {
-    try {
-      const response = await fetch(`${BASE_BACKEND_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
-      })
+    const data = await loginRequest(userData)
 
-      if (!response.ok) {
-        return { error: await response.json() }
-      }
-
-      const data: UserData = await response.json()
-
-      setCredentials(data.token, {
-        email: data.user.email,
-        first_name: data.user.first_name
-      })
-
-      navigate('/')
-
-      return {}
-    } catch (e) {
+    if (data.error) {
       return { error: 'Erro ao realizar login' }
     }
+
+    setCredentials(
+      {
+        email: data.user.email,
+        first_name: data.user.first_name
+      },
+      data.token
+    )
+
+    navigate('/my-profile')
+
+    return {}
   }
 
   const logout = () => {
@@ -119,26 +108,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null)
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    window.location.reload()
   }
 
   const requestResetPassword = async (email: string): Promise<{ error?: string }> => {
-    try {
-      const response = await fetch(`${BASE_BACKEND_URL}/password-reset-request`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email: email })
-      })
+    return passwordResetRequest(email)
+  }
 
-      if (!response.ok) {
-        return { error: await response.json() }
-      }
+  const changePassword = async (
+    newPassword: string,
+    token: string
+  ): Promise<{ error?: string; data?: { user: { email: string; first_name: string } } }> => {
+    return changePasswordRequest(newPassword, token)
+  }
 
-      return {}
-    } catch (e) {
-      return { error: 'Erro ao enviar e-mail' }
+  const updateUser = async (
+    userData: UpdatedUser
+  ): Promise<UpdateUserResponse | { error: string }> => {
+    const token = getCredentials().token
+
+    const data: UpdateUserResponse = await updateUserRequest(userData, token)
+
+    if ('error' in data) {
+      return { error: data.error }
     }
+
+    setCredentials({
+      email: data.user.email,
+      first_name: data.user.first_name
+    })
+
+    return data
   }
 
   return (
@@ -151,7 +151,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         login,
         getCredentials,
-        requestResetPassword
+        requestResetPassword,
+        changePassword,
+        updateUser
       }}>
       {children}
     </AuthContext.Provider>
