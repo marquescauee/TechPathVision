@@ -21,7 +21,7 @@ interface LocalStorageItems {
 interface AuthContextType {
   user: User | null
   token: string | null
-  setTokens: (token: string, user: User) => void
+  setCredentials: (token: string, user: User) => void
   register: (user: User) => Promise<{
     error?: string
   }>
@@ -30,7 +30,7 @@ interface AuthContextType {
   }>
   requestResetPassword: (email: string) => Promise<{ error?: string }>
   logout: () => void
-  getTokens: () => LocalStorageItems
+  getCredentials: () => LocalStorageItems
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -40,14 +40,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [token, setToken] = useState<string | null>(null)
   const navigate = useNavigate()
 
-  const setTokens = (token: string, user: User) => {
+  const setCredentials = (token: string, user: User) => {
     setUser(user)
     setToken(token)
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(user))
   }
 
-  const getTokens = () => {
+  const getCredentials = () => {
     const token = localStorage.getItem('token')
     const user = JSON.parse(localStorage.getItem('user') ?? '{}')
 
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const data: UserData = await response.json()
 
-      setTokens(data.token, {
+      setCredentials(data.token, {
         email: data.user.email,
         first_name: data.user.first_name
       })
@@ -101,7 +101,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const data: UserData = await response.json()
 
-      setTokens(data.token, {
+      setCredentials(data.token, {
         email: data.user.email,
         first_name: data.user.first_name
       })
@@ -143,7 +143,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   return (
     <AuthContext.Provider
-      value={{ user, token, setTokens, register, logout, login, getTokens, requestResetPassword }}>
+      value={{
+        user,
+        token,
+        setCredentials,
+        register,
+        logout,
+        login,
+        getCredentials,
+        requestResetPassword
+      }}>
       {children}
     </AuthContext.Provider>
   )

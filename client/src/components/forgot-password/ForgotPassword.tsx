@@ -1,25 +1,32 @@
 import { useState } from 'react'
 import './ForgotPassword.css'
 import { useAuth } from '../../contexts/useAuth'
+import Spinner from '../spinner/Spinner'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState<string>('')
   const { requestResetPassword } = useAuth()
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const [successMessage, setSuccessMessage] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true)
+    setSuccessMessage('')
+    setErrorMessage('')
     e.preventDefault()
     e.stopPropagation()
 
-    setErrorMessage('')
-
     const response = await requestResetPassword(email)
-
-    console.log(response)
 
     if (response.error) {
       setErrorMessage(`${response.error}.`)
+      setLoading(false)
+      return
     }
+
+    setSuccessMessage('E-mail enviado com sucesso! Verifique sua caixa de entrada.')
+    setLoading(false)
   }
 
   return (
@@ -41,10 +48,13 @@ const ForgotPassword = () => {
                 placeholder="Digite seu e-mail"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {errorMessage && <span className="error">{errorMessage}</span>}
+            </div>
+            <div className="send-mail-info">
+              {errorMessage && <span className="error send-mail-error">{errorMessage}</span>}
+              {successMessage && <div className="success-message">{successMessage}</div>}
             </div>
           </div>
-          <button className="login-button login">enviar</button>
+          {loading ? <Spinner /> : <button className="login-button login">enviar</button>}
         </div>
       </div>
     </form>

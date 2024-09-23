@@ -11,6 +11,7 @@ from users.serializers import UserSerializer
 from django.core.mail import send_mail
 from users.models import PasswordResetToken
 from .serializers import PasswordResetRequestSerializer, PasswordResetConfirmSerializer
+from django.template.loader import get_template
 
 @api_view(['POST'])
 def login(request):
@@ -53,22 +54,27 @@ def password_reset_request(request):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response({"detail": "User with this email does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Não há um usuário com o e-mail informado."}, status=status.HTTP_400_BAD_REQUEST)
 
         token = PasswordResetToken.objects.create(user=user)
-        reset_link = f'{settings.FRONTEND_URL}/password-reset-confirm/{token.token}'
+        reset_link = f'{settings.FRONTEND_URL}/set-new-password/{token.token}'
+        context = {'reset_link': reset_link, 'first_name': user.first_name}
+        template = get_template('email.html').render(context)
+
         
         send_mail(
-            'Password Reset Request',
-            f'Click the link below to reset your password:\n{reset_link}',
+            'Redefinição de senha',
+            None,
             'your-email@example.com',
             [email],
             fail_silently=False,
+            html_message= template
         )
         
         return Response({"detail": "Password reset email has been sent."}, status=status.HTTP_200_OK)
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response('Não há um usuário com o e-mail informado', status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 def password_reset_confirm(request, token):
     serializer = PasswordResetConfirmSerializer(data=request.data)

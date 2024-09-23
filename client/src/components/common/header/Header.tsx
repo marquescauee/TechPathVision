@@ -5,12 +5,12 @@ import './Header.css'
 import { useAuth } from '../../../contexts/useAuth'
 
 const Header = () => {
-  const { logout, getTokens } = useAuth()
+  const { logout, getCredentials } = useAuth()
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [userName, setUserName] = useState<string>('')
 
   useEffect(() => {
-    const { token, user } = getTokens()
+    const { token, user } = getCredentials()
     if (token && user) {
       setIsLoggedIn(true)
       setUserName(user.first_name.split(' ')[0])
@@ -18,7 +18,7 @@ const Header = () => {
       setIsLoggedIn(false)
       setUserName('')
     }
-  }, [getTokens])
+  }, [getCredentials])
 
   return (
     <header className="header">
