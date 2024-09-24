@@ -20,7 +20,7 @@ const ForgotPassword = () => {
     const response = await requestResetPassword(email)
 
     if (response.error) {
-      setErrorMessage(`${response.error}.`)
+      setErrorMessage(response.error)
       setLoading(false)
       return
     }

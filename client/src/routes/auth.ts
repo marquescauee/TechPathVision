@@ -43,7 +43,7 @@ export const passwordResetRequest = async (email: string): Promise<{ error?: str
 
     return {}
   } catch (e) {
-    return { error: 'Erro ao enviar e-mail' }
+    return { error: 'Erro ao enviar e-mail.' }
   }
 }
 

@@ -44,12 +44,14 @@ const Login = () => {
     })
     setErrorMessage('')
 
-    ERRORS.emailError = isInvalidEmail(userData.email)
-    ERRORS.passwordError = validatePasswordLength(userData.password)
+    const initialErrors = { ...ERRORS }
 
-    setFormErrors(ERRORS)
+    initialErrors.emailError = isInvalidEmail(userData.email)
+    initialErrors.passwordError = validatePasswordLength(userData.password)
 
-    const hasErrors = Object.values(ERRORS).some((error) => error)
+    setFormErrors(initialErrors)
+
+    const hasErrors = Object.values(initialErrors).some((error) => error)
 
     if (hasErrors) return
 
@@ -96,7 +98,7 @@ const Login = () => {
             {formErrors.passwordError && (
               <span className="error">A senha deve ter entre 8 e 16 caracteres.</span>
             )}
-            {errorMessage && <span className="error">Usuário e/ou senha inválidos.</span>}
+            {errorMessage && <span className="error">{errorMessage}</span>}
             <a href="/forgot-password" className="forgot-password">
               Esqueceu sua senha?
             </a>

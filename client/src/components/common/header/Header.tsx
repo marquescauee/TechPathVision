@@ -40,7 +40,7 @@ const Header = () => {
             Olá, {userName}!
           </a>
           <div className="dropdown-menu logged-dropdown-menu" aria-labelledby="navbarDropdown">
-            <a className="dropdown-item logged-dropdown-item" href="#">
+            <a className="dropdown-item logged-dropdown-item" href="/my-profile">
               Meu Perfil
             </a>
             <a className="dropdown-item logged-dropdown-item" href="#">

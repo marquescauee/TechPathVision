@@ -17,6 +17,12 @@ interface RegisterUserErrors {
   passwordError: boolean
 }
 
+const ERRORS = {
+  nameError: false,
+  emailError: false,
+  passwordError: false
+}
+
 const Register = () => {
   const { register } = useAuth()
 
@@ -44,30 +50,24 @@ const Register = () => {
       passwordError: false
     })
 
-    const errors = {
-      nameError: false,
-      emailError: false,
-      passwordError: false
-    }
-
     setErrorMessage('')
 
-    errors.nameError = validateNameLength(userData.first_name)
-    errors.emailError = isInvalidEmail(userData.email)
-    errors.passwordError = validatePasswordLength(userData.password)
+    const initialErrors = { ...ERRORS }
+    initialErrors.nameError = validateNameLength(userData.first_name)
+    initialErrors.emailError = isInvalidEmail(userData.email)
+    initialErrors.passwordError = validatePasswordLength(userData.password)
 
-    setFormErrors(errors)
+    setFormErrors(initialErrors)
 
-    const hasErrors = Object.values(formErrors).some((error) => error)
+    const hasErrors = Object.values(initialErrors).some((error) => error)
 
     if (hasErrors) return
 
     const response = await register(userData)
+    console.log(response)
 
     if (response.error) {
-      if (Object.keys(response.error).includes('email')) {
-        setErrorMessage('Já existe um usuário com esse e-mail cadastrado.')
-      }
+      setErrorMessage(Object.values(response.error)[0])
     }
   }
 
@@ -105,6 +105,7 @@ const Register = () => {
               onChange={(e) => setUserData({ ...userData, email: e.target.value })}
             />
             {formErrors.emailError && <span className="error">Email inválido.</span>}
+            {errorMessage && <span className="error">{errorMessage}</span>}
           </div>
           <div className="label-input-wrapper">
             <label className="label" htmlFor="password">
@@ -123,7 +124,6 @@ const Register = () => {
               <span className="error">A senha deve ter entre 8 e 16 caracteres.</span>
             )}
           </div>
-          {errorMessage && <span className="error">{errorMessage}</span>}
         </div>
         <button type="submit" className="login-button register">
           CADASTRAR

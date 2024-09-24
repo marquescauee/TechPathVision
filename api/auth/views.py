@@ -19,11 +19,11 @@ def login(request):
     password = request.data.get('password')
     
     if not email or not password:
-        return Response({"detail": "Email and password are required."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response("Email e senha são obrigatórios.", status=status.HTTP_400_BAD_REQUEST)
 
     user = get_object_or_404(User, email=email)
     if not user.check_password(password):
-        return Response({"detail": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response("E-mail e/ou senha inválidos.", status=status.HTTP_400_BAD_REQUEST)
 
     token, created = Token.objects.get_or_create(user=user)
     serializer = UserSerializer(instance=user)
@@ -44,7 +44,7 @@ def signup(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def validate_token(request):
-    return Response("Successfully Authenticated", status=status.HTTP_200_OK)
+    return Response("Autenticado com sucesso.", status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def password_reset_request(request):
@@ -54,7 +54,7 @@ def password_reset_request(request):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response({"detail": "Não há um usuário com o e-mail informado."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response("Não há um usuário com o e-mail informado.", status=status.HTTP_400_BAD_REQUEST)
 
         token = PasswordResetToken.objects.create(user=user)
         reset_link = f'{settings.FRONTEND_URL}/set-new-password/{token.token}'
@@ -71,9 +71,9 @@ def password_reset_request(request):
             html_message= template
         )
         
-        return Response({"detail": "Password reset email has been sent."}, status=status.HTTP_200_OK)
+        return Response("O e-mail de redefinição de senha foi enviado com sucesso! Verifique sua caixa de entrada.", status=status.HTTP_200_OK)
     
-    return Response('Não há um usuário com o e-mail informado', status=status.HTTP_400_BAD_REQUEST)
+    return Response('Não há um usuário com o e-mail informado.', status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def password_reset_confirm(request, token):

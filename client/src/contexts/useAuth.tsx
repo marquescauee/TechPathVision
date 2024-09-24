@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const data = await registerRequest(user)
 
     if (data.error) {
-      return { error: 'Erro ao realizar login' }
+      return { error: data.error }
     }
 
     setCredentials(
@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const data = await loginRequest(userData)
 
     if (data.error) {
-      return { error: 'Erro ao realizar login' }
+      return { error: data.error }
     }
 
     setCredentials(
