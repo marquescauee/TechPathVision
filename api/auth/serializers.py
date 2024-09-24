@@ -16,10 +16,10 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     
     def validate_token(self, value):
         if not PasswordResetToken.objects.filter(token=value).exists():
-            raise serializers.ValidationError("Invalid or expired token.")
+            raise serializers.ValidationError("Token expirado. Por favor, solicite a redefinição de senha novamente.")
         return value
     
     def validate_new_password(self, value):
         if len(value) < 8 or len(value) > 16:
-            raise serializers.ValidationError("Password must be between 8 and 16 characters.")
+            raise serializers.ValidationError("A senha deve ter entre 8 e 16 caracteres.")
         return value

@@ -49,40 +49,34 @@ const MyProfileForm = () => {
 
   const [loading, setLoading] = useState<boolean>(false)
   const [newPassword, setNewPassword] = useState<string>('')
+  const [success, setSuccess] = useState<string>('')
 
   const handleChangeData = async (e: React.FormEvent) => {
     e.preventDefault()
     e.stopPropagation()
 
     setLoading(true)
+    setSuccess('')
 
-    setFormErrors({
-      nameError: false,
-      newPasswordError: false,
-      confirmPasswordError: false,
-      confirmPasswordNotFilled: false,
-      passwordNotFilled: false,
-      currentPasswordWrong: false
-    })
-
-    ERRORS.nameError = !validateNameLength(userData.first_name)
+    const initialErrors = { ...ERRORS }
+    initialErrors.nameError = validateNameLength(userData.first_name)
 
     if (userData.password && !newPassword) {
-      ERRORS.confirmPasswordNotFilled = true
+      initialErrors.confirmPasswordNotFilled = true
     }
 
     if (!userData.password && newPassword) {
-      ERRORS.passwordNotFilled = true
+      initialErrors.passwordNotFilled = true
     }
 
     if (userData.password) {
-      ERRORS.newPasswordError = validatePasswordLength(userData.password)
-      ERRORS.confirmPasswordError = validatePasswordLength(newPassword)
+      initialErrors.newPasswordError = validatePasswordLength(userData.password)
+      initialErrors.confirmPasswordError = validatePasswordLength(newPassword)
     }
 
-    setFormErrors(ERRORS)
+    setFormErrors(initialErrors)
 
-    const hasErrors = Object.values(formErrors).some((error) => error)
+    const hasErrors = Object.values(initialErrors).some((error) => error)
 
     if (hasErrors) {
       setLoading(false)
@@ -95,9 +89,9 @@ const MyProfileForm = () => {
       new_password: newPassword
     })
 
-    if (typeof response === 'object' && response !== null && 'error' in response) {
-      if (response.error === 'Current password is wrong') {
-        setFormErrors({ ...ERRORS, currentPasswordWrong: true })
+    if ('error' in response) {
+      if (response.error) {
+        setFormErrors({ ...initialErrors, currentPasswordWrong: true })
         setLoading(false)
         return
       }
@@ -105,6 +99,7 @@ const MyProfileForm = () => {
 
     setUserData({ ...userData, password: '' })
     setNewPassword('')
+    setSuccess('Dados atualizados com sucesso!')
     setLoading(false)
   }
 
@@ -183,6 +178,7 @@ const MyProfileForm = () => {
               )}
             </div>
           </div>
+          {success && <div className="success-message">{success}</div>}
           {loading ? <Spinner /> : <button className="login-button login">enviar</button>}
         </div>
       </form>

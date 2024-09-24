@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './Login.css'
 import { useAuth } from '../../contexts/useAuth'
-import { isValidEmail } from '../../utils/isValidEmail'
+import { isInvalidEmail } from '../../utils/isInvalidEmail'
 import { validatePasswordLength } from '../../utils/validatePasswordLength'
 
 interface LoginUser {
@@ -44,7 +44,7 @@ const Login = () => {
     })
     setErrorMessage('')
 
-    ERRORS.emailError = !isValidEmail(userData.email)
+    ERRORS.emailError = isInvalidEmail(userData.email)
     ERRORS.passwordError = validatePasswordLength(userData.password)
 
     setFormErrors(ERRORS)

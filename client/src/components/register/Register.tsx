@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './Register.css'
 import { useAuth } from '../../contexts/useAuth'
 import { validateNameLength } from '../../utils/validateNameLength'
-import { isValidEmail } from '../../utils/isValidEmail'
+import { isInvalidEmail } from '../../utils/isInvalidEmail'
 import { validatePasswordLength } from '../../utils/validatePasswordLength'
 
 interface RegisterUser {
@@ -52,8 +52,8 @@ const Register = () => {
 
     setErrorMessage('')
 
-    errors.nameError = !validateNameLength(userData.first_name)
-    errors.emailError = isValidEmail(userData.email)
+    errors.nameError = validateNameLength(userData.first_name)
+    errors.emailError = isInvalidEmail(userData.email)
     errors.passwordError = validatePasswordLength(userData.password)
 
     setFormErrors(errors)

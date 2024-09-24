@@ -13,13 +13,13 @@ interface ChangePasswordProps {
 interface ChangePasswordErrors {
   newPasswordError: boolean
   confirmNewPasswordError: boolean
-  passwordsMatch: boolean
+  passwordsDontMatch: boolean
 }
 
 const ERRORS = {
   newPasswordError: false,
   confirmNewPasswordError: false,
-  passwordsMatch: false
+  passwordsDontMatch: false
 }
 
 const ChangePassword = () => {
@@ -33,7 +33,7 @@ const ChangePassword = () => {
   const [formErrors, setFormErrors] = useState<ChangePasswordErrors>({
     newPasswordError: false,
     confirmNewPasswordError: false,
-    passwordsMatch: false
+    passwordsDontMatch: false
   })
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -46,22 +46,23 @@ const ChangePassword = () => {
 
     setLoading(true)
 
+    const initialErrors = { ...ERRORS }
     setFormErrors({
       newPasswordError: false,
       confirmNewPasswordError: false,
-      passwordsMatch: false
+      passwordsDontMatch: false
     })
 
-    ERRORS.newPasswordError = validatePasswordLength(passwordData.newPassword)
-    ERRORS.confirmNewPasswordError = validatePasswordLength(passwordData.confirmNewPassword)
-    ERRORS.passwordsMatch = validatePasswordsMatch(
+    initialErrors.newPasswordError = validatePasswordLength(passwordData.newPassword)
+    initialErrors.confirmNewPasswordError = validatePasswordLength(passwordData.confirmNewPassword)
+    initialErrors.passwordsDontMatch = !validatePasswordsMatch(
       passwordData.newPassword,
       passwordData.confirmNewPassword
     )
 
-    setFormErrors(ERRORS)
+    setFormErrors(initialErrors)
 
-    const hasErrors = Object.values(formErrors).some((error) => error)
+    const hasErrors = Object.values(initialErrors).some((error) => error)
 
     if (hasErrors) {
       setLoading(false)
@@ -71,8 +72,8 @@ const ChangePassword = () => {
     const urlToken = window.location.pathname.split('/')[2]
     const response = await changePassword(passwordData.newPassword, urlToken)
 
-    if (Object.keys(response).includes('token')) {
-      setErrorMessage('Token expirado. Por favor, solicite a redefinição de senha novamente.')
+    if (response.error) {
+      setErrorMessage(response.error)
     }
 
     if (response.data) {
@@ -123,7 +124,7 @@ const ChangePassword = () => {
               {formErrors.confirmNewPasswordError && !errorMessage && (
                 <span className="error">A senha deve ter entre 8 e 16 caracteres.</span>
               )}
-              {!formErrors.passwordsMatch && !errorMessage && (
+              {formErrors.passwordsDontMatch && !errorMessage && (
                 <span className="error">As senhas não são iguais.</span>
               )}
               {errorMessage && <span className="error">{errorMessage}</span>}

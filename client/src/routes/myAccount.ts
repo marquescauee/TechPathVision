@@ -27,6 +27,6 @@ export const updateUserRequest = async (
     const data: UserData = await response.json()
     return data
   } catch (e) {
-    return { error: 'Current password is wrong' }
+    return { error: 'A senha atual é inválida.' }
   }
 }

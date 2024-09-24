@@ -17,7 +17,7 @@ export const changePasswordRequest = async (
 
     if (!response.ok) {
       const errorData = await response.json()
-      return { error: errorData.detail || 'Erro desconhecido' }
+      return { error: errorData.token || errorData.new_password || 'Erro desconhecido' }
     }
 
     const data = await response.json()
