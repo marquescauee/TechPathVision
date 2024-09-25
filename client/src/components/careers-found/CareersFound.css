@@ -108,8 +108,8 @@
 
 .close {
   position: absolute;
-  right: 3%;
-  top: 10%;
+  right: 2%;
+  top: 12%;
   color: #fafafa;
 }
 
@@ -118,15 +118,28 @@
   width: 95%;
   margin: 0 auto;
   line-height: 28px;
+  margin-bottom: 3rem;
+}
+
+.modal-body-skills {
+  margin-bottom: 0;
+}
+
+.modal-skills-title {
   margin-bottom: 1rem;
+  font-weight: bold;
 }
 
 @media screen and (min-width: 1024px) {
   .careers-found-wrapper {
     display: flex;
-    gap: 5rem;
+    gap: 6rem;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
+  }
+
+  .modal-body-skills {
+    margin: 1rem auto;
   }
 
   .career-found {
@@ -143,7 +156,7 @@
   }
 
   .modal-content {
-    margin: 1rem;
+    margin: 2rem 10rem 10rem 10rem
   }
 }
 

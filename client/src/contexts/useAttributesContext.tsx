@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Attribute } from '../interfaces/Attribute'
-import { getAttributes } from '../routes/profile'
+import { getAttributesRequest } from '../routes/profile'
 
 interface AttributesContextType {
   selectedAttributes: Attribute[]
@@ -22,7 +22,7 @@ export const AttributesProvider: React.FC<AttributesProviderProps> = ({ children
   useEffect(() => {
     const fetchAttributes = async () => {
       try {
-        const response = await getAttributes()
+        const response = await getAttributesRequest()
         setSuggestedAttributes(response)
       } catch (error) {
         console.error('Failed to fetch attributes:', error)

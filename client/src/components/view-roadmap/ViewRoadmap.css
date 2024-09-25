@@ -7,7 +7,151 @@
   text-align: center;
 }
 
-.roadmap-img {
+.roadmap-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.subjects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.roadmap-expand {
+  color: #000;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.roadmap-expand:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+.roadmap-box:hover {
+  background-color: #98C1E8;
+}
+
+.roadmap-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  background-color: #98C1E8;
+  color: #000;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  width: 300px;
+  height: 75px;
+  align-items: center;
+}
+
+.roadmap-arrow-container {
+  position: absolute;
+  right: 50%;
+  top: 130%;
+  transform: translateX(50%);
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.roadmap-arrow {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid #98E8BF;
+}
+
+.arrow-stem {
+  width: 2px;
+  height: 10px;
+  background-color: #98E8BF;
+  margin: 0 auto;
+}
+
+.modal-body-content {
+  font-weight: 400;
+  text-align: justify;
+}
+
+.modal-body-paragraphs {
+  margin-bottom: 15px;
+}
+
+.content-title {
+  font-weight: bold;
+  margin: 16px 0;
+}
+
+.documentation-title {
+  font-weight: bold;
+}
+
+.documentation-url {
+  color: #98E8BF;
+  text-decoration: underline;
+}
+
+.roadmap-horizontal-line {
   width: 100%;
-  margin-top: 2rem;
+}
+
+.toast {
+  font-family: Roboto;
+  color: rgba(15, 22, 40, 1);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 29.3px;
+  text-transform: uppercase;
+  margin: 0 .5rem;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  bottom: 15%;
+  left: 100%;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1024px) {
+  .subjects-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5rem;
+    justify-content: center;
+    margin-top: 5rem;
+  }
+
+
+  .roadmap-arrow {
+    border-left: 20px solid #98E8BF;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    transform: rotate(0deg);
+    margin: 0 auto;
+  }
+
+  .roadmap-arrow-container {
+    top: 50%;
+    right: -20%;
+    flex-direction: row-reverse;
+    align-items: center;
+    transform: translateY(-50%);
+  }
+
+  .arrow-stem {
+    width: 10px;
+    height: 2px;
+    margin: 0 0;
+  }
 }
