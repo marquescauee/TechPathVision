@@ -10,6 +10,7 @@ import ForgotPasswordPage from './pages/forgot-password/ForgotPasswordPage'
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage'
 import MyProfilePage from './pages/my-profile-page/MyProfilePage'
 import { AuthProvider, useAuth } from './contexts/useAuth'
+import { CareersProvider } from './contexts/useCareersContext'
 
 type PrivateRoutesProps = {
   Item: React.FC
@@ -26,21 +27,23 @@ const App = () => {
     <>
       <BrowserRouter>
         <AuthProvider>
-          <Header />
-          <Routes>
-            <Route element={<HomePage />} path="/"></Route>
-            <Route element={<MapProfilePage />} path="/map-profile"></Route>
-            <Route element={<Career />} path="/careers-found"></Route>
-            <Route element={<RoadmapPage />} path="/generated-roadmap"></Route>
-            <Route element={<LoginRegisterPage />} path="/login"></Route>
-            <Route element={<LoginRegisterPage />} path="/register"></Route>
-            <Route element={<ForgotPasswordPage />} path="/forgot-password"></Route>
-            <Route element={<ChangePasswordPage />} path="/set-new-password/:token"></Route>
+          <CareersProvider>
+            <Header />
+            <Routes>
+              <Route element={<HomePage />} path="/"></Route>
+              <Route element={<MapProfilePage />} path="/map-profile"></Route>
+              <Route element={<Career />} path="/careers-found"></Route>
+              <Route element={<RoadmapPage />} path="/generated-roadmap"></Route>
+              <Route element={<LoginRegisterPage />} path="/login"></Route>
+              <Route element={<LoginRegisterPage />} path="/register"></Route>
+              <Route element={<ForgotPasswordPage />} path="/forgot-password"></Route>
+              <Route element={<ChangePasswordPage />} path="/set-new-password/:token"></Route>
 
-            <Route element={<PrivateRoutes Item={MyProfilePage} />} path="/my-profile"></Route>
+              <Route element={<PrivateRoutes Item={MyProfilePage} />} path="/my-profile"></Route>
 
-            <Route path="*" element={<HomePage />}></Route>
-          </Routes>
+              <Route path="*" element={<HomePage />}></Route>
+            </Routes>
+          </CareersProvider>
         </AuthProvider>
       </BrowserRouter>
     </>

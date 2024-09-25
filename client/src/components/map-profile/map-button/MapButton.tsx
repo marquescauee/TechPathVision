@@ -3,28 +3,36 @@ import { useAttributesContext } from '../../../contexts/useAttributesContext'
 import { useCareersContext } from '../../../contexts/useCareersContext'
 import './MapButton.css'
 import { useNavigate } from 'react-router-dom'
+import LoadingPage from '../../loading-page/LoadingPage'
 
 const MapButton = () => {
   const { selectedAttributes } = useAttributesContext()
-  const { sendProfile } = useCareersContext()
+  const { mapProfile } = useCareersContext()
   const navigate = useNavigate()
 
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleClick = async () => {
     setErrorMessage('')
+    setLoading(true)
 
     if (selectedAttributes.length >= 8) {
-      const response = await sendProfile(selectedAttributes)
+      const selectedAttributesValues = selectedAttributes.map((attribute) => attribute.value)
+
+      const response = await mapProfile(selectedAttributesValues)
 
       if (response.error) {
         setErrorMessage('Falha ao enviar atributos.')
         return
       }
 
+      setLoading(false)
       navigate('/careers-found')
     }
   }
+
+  if (loading) return <LoadingPage />
 
   return (
     <div className="map-button-wrapper">

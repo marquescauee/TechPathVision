@@ -2,28 +2,43 @@ import { useNavigate } from 'react-router-dom'
 import './CareersFound.css'
 import { useEffect, useState } from 'react'
 import { Career } from '../../interfaces/Career'
+import { useCareersContext } from '../../contexts/useCareersContext'
 import { areas } from '../../mock/areas'
-// import { useCareersContext } from '../../contexts/useCareersContext'
+import LoadingPage from '../loading-page/LoadingPage'
 
 const CareersFound = () => {
   const navigate = useNavigate()
   const [careers, setCareers] = useState<Career[]>([])
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const { mappedCareers, generateRoadmap } = useCareersContext()
 
-  // const { mappedCareers } = useCareersContext()
+  const handleGenerateRoadmap = async (career: Career) => {
+    setErrorMessage('')
+    setLoading(true)
 
-  const handleGenerateRoadmap = () => {
+    const response = await generateRoadmap(career.title)
+
+    if (response.error) {
+      setErrorMessage('Falha ao enviar atributos.')
+      return
+    }
+
+    setLoading(false)
     navigate('/generated-roadmap')
   }
 
   useEffect(() => {
     setCareers(areas)
-    // setCareers(mappedCareers)
   }, [])
+
+  if (loading) return <LoadingPage />
 
   return (
     <>
       <div className="careers-found-header-wrapper">
         <div className="careers-found-header">CARREIRAS ENCONTRADAS PARA VOCÊ!</div>
+        {errorMessage && <div>{errorMessage}</div>}
         <div className="careers-found-horizontal-line"></div>
       </div>
       <div className="careers-found-wrapper">
@@ -96,7 +111,7 @@ const CareersFound = () => {
                         data-dismiss="modal"
                         type="button"
                         className="generate-roadmap"
-                        onClick={handleGenerateRoadmap}>
+                        onClick={() => handleGenerateRoadmap(career)}>
                         GERAR ROADMAP
                       </button>
                     </div>

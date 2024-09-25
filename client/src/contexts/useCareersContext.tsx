@@ -1,12 +1,18 @@
 import React, { createContext, useContext, useState } from 'react'
 import { Career } from '../interfaces/Career'
-import { sendProfileRequest } from '../routes/careers'
-import { Attribute } from '../interfaces/Attribute'
+import { mapProfileRequest } from '../routes/careers'
+import { Roadmap } from '../interfaces/Roadmap'
+import { generateRoadmapRequest } from '../routes/roadmap'
 
 interface CareersContextType {
   mappedCareers: Career[]
+  mappedRoadmap: Roadmap
   setMappedCareers: React.Dispatch<React.SetStateAction<Career[]>>
-  sendProfile: (profile: Attribute[]) => Promise<{ error?: string }>
+  setMappedRoadmap: React.Dispatch<React.SetStateAction<Roadmap>>
+  mapProfile: (profile: string[]) => Promise<{ error?: string }>
+  generateRoadmap: (careerTitle: string) => Promise<{
+    error?: string
+  }>
 }
 
 const CareersContext = createContext<CareersContextType | undefined>(undefined)
@@ -17,15 +23,31 @@ interface CareersProviderProps {
 
 export const CareersProvider: React.FC<CareersProviderProps> = ({ children }) => {
   const [mappedCareers, setMappedCareers] = useState<Career[]>([])
+  const [mappedRoadmap, setMappedRoadmap] = useState<Roadmap>({
+    subjects: [],
+    title: ''
+  })
 
-  const sendProfile = async (profile: Attribute[]): Promise<{ error?: string }> => {
-    const data = await sendProfileRequest(profile)
+  const mapProfile = async (profile: string[]): Promise<{ error?: string }> => {
+    const data = await mapProfileRequest(profile)
 
     if (data.error) {
       return { error: data.error }
     }
 
-    return {}
+    setMappedCareers(data)
+    return data
+  }
+
+  const generateRoadmap = async (careerTitle: string): Promise<{ error?: string }> => {
+    const data = await generateRoadmapRequest(careerTitle)
+
+    if (data.error) {
+      return { error: data.error }
+    }
+
+    setMappedRoadmap(data)
+    return data
   }
 
   return (
@@ -33,7 +55,10 @@ export const CareersProvider: React.FC<CareersProviderProps> = ({ children }) =>
       value={{
         mappedCareers,
         setMappedCareers,
-        sendProfile
+        mapProfile,
+        mappedRoadmap,
+        setMappedRoadmap,
+        generateRoadmap
       }}>
       {children}
     </CareersContext.Provider>

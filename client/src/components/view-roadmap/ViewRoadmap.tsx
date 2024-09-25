@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './ViewRoadmap.css'
-import { Roadmap } from '../../interfaces/Roadmap'
-import { roadmapMock } from '../../mock/roadmapMock'
 import { useAuth } from '../../contexts/useAuth'
-import { saveRoadmapRequest } from '../../routes/saveRoadmap'
+import { saveRoadmapRequest } from '../../routes/roadmap'
+import { useCareersContext } from '../../contexts/useCareersContext'
+import { roadmapMock } from '../../mock/roadmapMock'
 
 const ViewRoadmap = () => {
   const { getCredentials } = useAuth()
 
-  const [roadmap, setRoadmap] = useState<Roadmap>({
-    title: '',
-    subjects: []
-  })
+  // const { mappedRoadmap } = useCareersContext()
+  const mappedRoadmap = roadmapMock
 
   const [message, setMessage] = useState<string>('Roadmap salvo com sucesso!')
 
@@ -24,20 +22,16 @@ const ViewRoadmap = () => {
       //depois de salvo, eliminar do localStorage e redirecionar o usuario para /my-roadmaps
     }
 
-    const response = await saveRoadmapRequest(token, roadmap)
+    const response = await saveRoadmapRequest(token, mappedRoadmap)
 
     setMessage(response)
   }
 
-  useEffect(() => {
-    setRoadmap(roadmapMock)
-  }, [roadmap])
-
   return (
     <div className="roadmap-container">
-      <div className="view-roadmap-title">{roadmap.title}</div>
+      <div className="view-roadmap-title">{mappedRoadmap.title}</div>
       <div className="subjects-container">
-        {roadmap.subjects.map((subject, index) => {
+        {mappedRoadmap.subjects.map((subject, index) => {
           const modalId = `roadmap-${subject.title.replace(/\s+/g, '-')}`
 
           return (
@@ -49,7 +43,7 @@ const ViewRoadmap = () => {
               data-target={`#${modalId}`}
               href="#">
               {subject.title}
-              {index < roadmap.subjects.length - 1 && (
+              {index < mappedRoadmap.subjects.length - 1 && (
                 <div className="roadmap-arrow-container">
                   <div className="roadmap-arrow" />
                   <div className="arrow-stem" />
