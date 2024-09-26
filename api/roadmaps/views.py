@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Roadmap
 from careers.serializers import CareerSerializer
+from .serializers import RoadmapSerializer
+from rest_framework.authtoken.models import Token
 import ollama
 
 @api_view(['POST'])
@@ -32,14 +34,24 @@ def generate_roadmap(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def save_roadmap(request):
-    roadmap = request.data
-    serializer = RoadmapSerializer(roadmap, data=request.data, partial=True)
+    roadmap_data = request.data.get('roadmap')
+    user_token = request.data.get('token')
+
+    try:
+        token = Token.objects.get(key=user_token)
+        user = token.user
+        print(user)
+    except Token.DoesNotExist:
+        return Response({'error': 'Invalid token'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    roadmap_data['user'] = user.id
+    
+    serializer = RoadmapSerializer(data=roadmap_data)
 
     if serializer.is_valid():
         serializer.save()
-
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
+    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])

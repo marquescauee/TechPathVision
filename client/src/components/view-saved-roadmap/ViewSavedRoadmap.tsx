@@ -1,37 +1,9 @@
-import { useState } from 'react'
-import './ViewRoadmap.css'
-import { useAuth } from '../../contexts/useAuth'
 import { useCareersContext } from '../../contexts/useCareersContext'
-import { roadmapMock } from '../../mock/roadmapMock'
 
-const ViewRoadmap = () => {
-  const { getCredentials } = useAuth()
-  const { saveRoadmap } = useCareersContext()
-  const mappedRoadmap = roadmapMock
+const ViewSavedRoadmap = () => {
+  const { showSavedRoadmap } = useCareersContext()
 
-  const [errorMessage, setErrorMessage] = useState<string>('')
-  const [sucessMessage, setSuccessMessage] = useState<string>('')
-
-  const handleSaveRoadmap = async () => {
-    setErrorMessage('')
-    setSuccessMessage('')
-    const token = getCredentials().token
-
-    if (!token) {
-      //fazer logica de logar o usuario e depois salvar o roadmap no banco
-      //guardar o roadmap no localStorage temporariamente e salvar depois que o usuario fizer login
-      //depois de salvo, eliminar do localStorage e redirecionar o usuario para /my-roadmaps
-    }
-
-    const response = await saveRoadmap(token, mappedRoadmap)
-
-    if (response.error) {
-      setErrorMessage('Falha ao salvar roadmap.')
-      return
-    }
-
-    setSuccessMessage('Roadmap salvo com sucesso!')
-  }
+  const mappedRoadmap = showSavedRoadmap
 
   return (
     <div className="roadmap-container">
@@ -111,16 +83,8 @@ const ViewRoadmap = () => {
           )
         })}
       </div>
-      {(errorMessage || sucessMessage) && (
-        <div className="toast" style={{ background: sucessMessage ? '#98E8BF' : '#F16767' }}>
-          {sucessMessage ? sucessMessage : errorMessage}
-        </div>
-      )}
-      <button type="button" className="generate-roadmap" onClick={handleSaveRoadmap}>
-        SALVAR ROADMAP
-      </button>
     </div>
   )
 }
 
-export default ViewRoadmap
+export default ViewSavedRoadmap

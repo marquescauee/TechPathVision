@@ -43,7 +43,7 @@ const Header = () => {
             <a className="dropdown-item logged-dropdown-item" href="/my-profile">
               Meu Perfil
             </a>
-            <a className="dropdown-item logged-dropdown-item" href="#">
+            <a className="dropdown-item logged-dropdown-item" href="/my-roadmaps">
               Meus Roadmaps
             </a>
             <div className="dropdown-divider logged-dropdown-divider"></div>

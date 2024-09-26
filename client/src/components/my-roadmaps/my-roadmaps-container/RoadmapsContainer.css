@@ -1,0 +1,44 @@
+.roadmaps-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 3rem 0;
+  gap: 5rem;
+}
+
+.roadmap-card {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #192648;
+  border-radius: 5px;
+  color: #fafafa;
+  font-weight: 600;
+}
+
+.roadmap-card:hover,
+.card-text:hover,
+.card-body {
+  text-decoration: none;
+  color: #fafafa;
+}
+
+.card-img-top {
+  opacity: .4;
+}
+
+@media screen and (min-width: 768px) {
+  .roadmap-card {
+    width: 44%;
+  }
+
+  .card-text {
+    font-size: 22px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .roadmap-card {
+    width: 20%;
+  }
+}

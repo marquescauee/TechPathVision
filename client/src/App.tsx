@@ -11,6 +11,8 @@ import ChangePasswordPage from './pages/change-password/ChangePasswordPage'
 import MyProfilePage from './pages/my-profile-page/MyProfilePage'
 import { AuthProvider, useAuth } from './contexts/useAuth'
 import { CareersProvider } from './contexts/useCareersContext'
+import MyRoadmapsPage from './pages/my-roadmaps-page/MyRoadmapsPage'
+import ViewSavedRoadmapPage from './pages/view-saved-roadmap/ViewSavedRoadmapPage'
 
 type PrivateRoutesProps = {
   Item: React.FC
@@ -40,6 +42,10 @@ const App = () => {
               <Route element={<ChangePasswordPage />} path="/set-new-password/:token"></Route>
 
               <Route element={<PrivateRoutes Item={MyProfilePage} />} path="/my-profile"></Route>
+              <Route element={<PrivateRoutes Item={MyRoadmapsPage} />} path="/my-roadmaps"></Route>
+              <Route
+                element={<PrivateRoutes Item={ViewSavedRoadmapPage} />}
+                path="/view-roadmap"></Route>
 
               <Route path="*" element={<HomePage />}></Route>
             </Routes>

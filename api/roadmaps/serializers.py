@@ -4,5 +4,5 @@ from .models import Roadmap
 class RoadmapSerializer(serializers.ModelSerializer):
     class Meta:
         model = Roadmap
-        fields = ('title', 'subjects')
+        fields = (['title', 'subjects', 'user'])
 
