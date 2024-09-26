@@ -113,12 +113,13 @@
   height: 50px;
   border: none;
   border-radius: 5px;
-  padding: 0 2rem;
+  padding: 2rem;
+  text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   position: sticky;
-  bottom: 15%;
+  bottom: 10%;
   left: 100%;
   cursor: pointer;
 }
