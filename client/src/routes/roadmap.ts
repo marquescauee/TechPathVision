@@ -11,7 +11,7 @@ export const saveRoadmapRequest = async (token: string, roadmap: Roadmap) => {
     body: JSON.stringify({ roadmap: roadmap, token: token })
   })
   if (!response.ok) {
-    return 'Falha ao salvar o roadmap.'
+    return { error: 'Falha ao salvar o roadmap.' }
   }
 
   return await response.json()

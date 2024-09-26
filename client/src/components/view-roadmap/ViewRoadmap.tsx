@@ -26,11 +26,20 @@ const ViewRoadmap = () => {
     const response = await saveRoadmap(token, mappedRoadmap)
 
     if (response.error) {
-      setErrorMessage('Falha ao salvar roadmap.')
+      setErrorMessage('Falha ao salvar roadmap')
+
+      setTimeout(() => {
+        setErrorMessage('')
+      }, 2000)
+
       return
     }
 
     setSuccessMessage('Roadmap salvo com sucesso!')
+
+    setTimeout(() => {
+      setSuccessMessage('')
+    }, 2000)
   }
 
   return (
@@ -111,14 +120,14 @@ const ViewRoadmap = () => {
           )
         })}
       </div>
+      <button type="button" className="generate-roadmap" onClick={handleSaveRoadmap}>
+        SALVAR ROADMAP
+      </button>
       {(errorMessage || sucessMessage) && (
         <div className="toast" style={{ background: sucessMessage ? '#98E8BF' : '#F16767' }}>
           {sucessMessage ? sucessMessage : errorMessage}
         </div>
       )}
-      <button type="button" className="generate-roadmap" onClick={handleSaveRoadmap}>
-        SALVAR ROADMAP
-      </button>
     </div>
   )
 }

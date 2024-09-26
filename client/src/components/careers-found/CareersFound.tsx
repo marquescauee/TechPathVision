@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react'
 import { Career } from '../../interfaces/Career'
 import { useCareersContext } from '../../contexts/useCareersContext'
 import { areas } from '../../mock/areas'
-import LoadingPage from '../loading-page/LoadingPage'
 
-const CareersFound = () => {
+interface CareersFoundProps {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const CareersFound = ({ setLoading }: CareersFoundProps) => {
   const navigate = useNavigate()
   const [careers, setCareers] = useState<Career[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
   const { mappedCareers, generateRoadmap } = useCareersContext()
 
   const handleGenerateRoadmap = async (career: Career) => {
@@ -31,8 +33,6 @@ const CareersFound = () => {
   useEffect(() => {
     setCareers(areas)
   }, [])
-
-  if (loading) return <LoadingPage />
 
   return (
     <>

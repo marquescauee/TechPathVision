@@ -3,15 +3,17 @@ import { useAttributesContext } from '../../../contexts/useAttributesContext'
 import { useCareersContext } from '../../../contexts/useCareersContext'
 import './MapButton.css'
 import { useNavigate } from 'react-router-dom'
-import LoadingPage from '../../loading-page/LoadingPage'
 
-const MapButton = () => {
+interface MapButtonProps {
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const MapButton = ({ setLoading }: MapButtonProps) => {
   const { selectedAttributes } = useAttributesContext()
   const { mapProfile } = useCareersContext()
   const navigate = useNavigate()
 
   const [errorMessage, setErrorMessage] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
 
   const handleClick = async () => {
     setErrorMessage('')
@@ -31,8 +33,6 @@ const MapButton = () => {
       navigate('/careers-found')
     }
   }
-
-  if (loading) return <LoadingPage />
 
   return (
     <div className="map-button-wrapper">

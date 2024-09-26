@@ -1,3 +1,4 @@
+import json
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -7,17 +8,69 @@ from .models import Roadmap
 from careers.serializers import CareerSerializer
 from .serializers import RoadmapSerializer
 from rest_framework.authtoken.models import Token
+from typing import Dict, Any
 import ollama
 
 @api_view(['POST'])
 def generate_roadmap(request):
+
+    jsonExample: Dict[str, Any] = {
+        "subjects": [
+            {
+                "title": "HTML",
+                "description": "Hypertext Markup Language é a linguagem de marcação usada para estruturar e se comunicar conteúdo na web. É o elemento básico da construção da estrutura de uma página.",
+                "content": [
+                    "Elementos semânticos (header, nav, main, section, article, aside, footer)",
+                    "Atributos comuns (id, class, style, title)",
+                    "Tags para texto e cores (p, span, em, strong, u, i, b, color, font-size)",
+                    "Estruturas de dados (table, tr, th, td)",
+                    "Formulários (form, input, textarea, select, button)"
+                ],
+                "documentation": [
+                    {
+                        "title": "MDN Web Docs - HTML",
+                        "url": "https://developer.mozilla.org/pt-BR/docs/Web/HTML"
+                    },
+                    {
+                        "title": "W3Schools - HTML",
+                        "url": "https://www.w3schools.com/html/"
+                    }
+                ]
+            },
+            {
+                "title": "CSS",
+                "description": "Cascading Style Sheets é uma linguagem de estilo usada para adicionar visualizações a um website. Ela permite mudar layout e aparência da página.",
+                "content": [
+                    "Séletor (class, id, tag, atributo)",
+                    "Propriedades comuns (color, background-color, font-size, text-align)",
+                    "Modelo de caixa (box-sizing, padding, margin, border)",
+                    "Posicionamento de elementos (position, top, right, bottom, left)",
+                    "Efeitos e animações"
+                ],
+                "documentation": [
+                    {
+                        "title": "MDN Web Docs - CSS",
+                        "url": "https://developer.mozilla.org/pt-BR/docs/Web/CSS"
+                    },
+                    {
+                        "title": "W3Schools - CSS",
+                        "url": "https://www.w3schools.com/css/"
+                    }
+                ]
+            }
+        ]
+    }
+
     career = request.data
 
     serializer = CareerSerializer(data=career)
 
     if serializer.is_valid():
         model = 'llama3.1:8b'
-        question = 'retorne olá mundo em formato JSON. Não fale nada antes ou depois. Simplesmente retorne no formato {"ola_mundo": "Olá mundo"}'
+        question = f'Tomando como base a área de Segurança da Informação, elabore um roadmap de estudos que tenha no mínimo 10 subjects. Crie um JSON e para cada assunto, informe seu título e o máximo de informações possível sobre aquele assunto. Seja bem extenso, pois o iniciante que estiver lendo precisa ter o máximo de informações possível. Além disso, forneça um campo no JSON com sites que abordem aquele assunto. Se você não possui certeza que o link está ativo, informe apenas o nome do site/empresa que fornece conhecimento sobre. Retorne apenas o JSON, sem texto antes ou depois. O roadmap deve ser retornado em ordem de estudo e sequencial, de modo a guiar o usuário. Não repita subjects. O seu resultado para a descrição deve ter as mesmas chaves e ser maior do que a do seguinte exemplo: {jsonExample}'
+
+        json_example_str = json.dumps(jsonExample)
+        question = question.replace("{jsonExample}", json_example_str)
 
         response = ollama.chat(model=model, messages=[
           {
