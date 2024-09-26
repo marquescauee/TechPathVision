@@ -23,6 +23,7 @@
   margin-top: .5rem;
   font-size: 14px;
   text-decoration: underline;
+  width: fit-content;
 }
 
 input::-ms-reveal {

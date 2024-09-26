@@ -8,6 +8,7 @@ import {
 } from '../routes/auth'
 import { UpdatedUser, User } from '../interfaces/User'
 import { updateUserRequest, UpdateUserResponse } from '../routes/myAccount'
+import { saveRoadmapRequest } from '../routes/roadmap'
 
 interface LocalStorageItems {
   token: string
@@ -97,6 +98,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       },
       data.token
     )
+
+    const roadmapToBeSaved = localStorage.getItem('roadmapToBeSaved')
+    if (roadmapToBeSaved) {
+      await saveRoadmapRequest(data.token, JSON.parse(roadmapToBeSaved))
+      localStorage.removeItem('roadmapToBeSaved')
+      navigate('/my-roadmaps')
+      return {}
+    }
 
     navigate('/my-profile')
 

@@ -68,13 +68,13 @@ const Login = () => {
         <div className="login-title">LOGIN</div>
         <div className="fields-wrapper">
           <div className="label-input-wrapper">
-            <label className="label" htmlFor="email">
+            <label className="label" htmlFor="emailLogin">
               Email:
             </label>
             <input
               className="input"
               type="email"
-              id="email"
+              id="emailLogin"
               name="email"
               placeholder="Digite seu e-mail"
               required
@@ -83,13 +83,13 @@ const Login = () => {
             {formErrors.emailError && <span className="error">Email inválido.</span>}
           </div>
           <div className="label-input-wrapper">
-            <label className="label" htmlFor="password">
+            <label className="label" htmlFor="passwordLogin">
               Senha:
             </label>
             <input
               className="input"
               type="password"
-              id="password"
+              id="passwordLogin"
               name="password"
               placeholder="Digite sua senha"
               required

@@ -92,13 +92,13 @@ const Register = () => {
             {formErrors.nameError && <span className="error">Nome inválido.</span>}
           </div>
           <div className="label-input-wrapper">
-            <label className="label" htmlFor="email">
+            <label className="label" htmlFor="emailRegister">
               Email:
             </label>
             <input
               className="input"
               type="email"
-              id="email"
+              id="emailRegister"
               required
               name="email"
               placeholder="Digite seu e-mail"
@@ -108,13 +108,13 @@ const Register = () => {
             {errorMessage && <span className="error">{errorMessage}</span>}
           </div>
           <div className="label-input-wrapper">
-            <label className="label" htmlFor="password">
+            <label className="label" htmlFor="passwordRegister">
               Senha:
             </label>
             <input
               className="input"
               type="password"
-              id="password"
+              id="passwordRegister"
               name="password"
               required
               placeholder="Digite sua senha"

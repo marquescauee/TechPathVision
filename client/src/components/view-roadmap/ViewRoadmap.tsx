@@ -3,9 +3,11 @@ import './ViewRoadmap.css'
 import { useAuth } from '../../contexts/useAuth'
 import { useCareersContext } from '../../contexts/useCareersContext'
 import { roadmapMock } from '../../mock/roadmapMock'
+import { useNavigate } from 'react-router-dom'
 
 const ViewRoadmap = () => {
   const { getCredentials } = useAuth()
+  const navigate = useNavigate()
   const { saveRoadmap } = useCareersContext()
   const mappedRoadmap = roadmapMock
 
@@ -18,9 +20,9 @@ const ViewRoadmap = () => {
     const token = getCredentials().token
 
     if (!token) {
-      //fazer logica de logar o usuario e depois salvar o roadmap no banco
-      //guardar o roadmap no localStorage temporariamente e salvar depois que o usuario fizer login
-      //depois de salvo, eliminar do localStorage e redirecionar o usuario para /my-roadmaps
+      localStorage.setItem('roadmapToBeSaved', JSON.stringify(mappedRoadmap))
+      navigate('/login')
+      return
     }
 
     const response = await saveRoadmap(token, mappedRoadmap)

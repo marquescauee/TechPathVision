@@ -1,5 +1,5 @@
 export const roadmapMock = {
-  title: 'Desenvolvimento Front-End',
+  title: 'Desenvolvimento De Software',
   subjects: [
     {
       title: 'HTML',
