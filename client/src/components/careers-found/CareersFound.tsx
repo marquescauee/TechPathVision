@@ -3,7 +3,6 @@ import './CareersFound.css'
 import { useEffect, useState } from 'react'
 import { Career } from '../../interfaces/Career'
 import { useCareersContext } from '../../contexts/useCareersContext'
-import { areas } from '../../mock/areas'
 
 interface CareersFoundProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -31,8 +30,15 @@ const CareersFound = ({ setLoading }: CareersFoundProps) => {
   }
 
   useEffect(() => {
-    setCareers(areas)
-  }, [])
+    const careers = localStorage.getItem('careers')
+
+    if (careers) {
+      setCareers(JSON.parse(careers))
+      return
+    }
+
+    setCareers(mappedCareers)
+  }, [mappedCareers])
 
   return (
     <>
@@ -42,7 +48,7 @@ const CareersFound = ({ setLoading }: CareersFoundProps) => {
         <div className="careers-found-horizontal-line"></div>
       </div>
       <div className="careers-found-wrapper">
-        {careers.map((career) => {
+        {careers?.map((career) => {
           const modalId = `careersModal-${career.title.replace(/\s+/g, '-')}`
 
           return (

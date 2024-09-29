@@ -32,6 +32,21 @@ export const generateRoadmapRequest = async (careerTitle: string) => {
   return await response.json()
 }
 
+export const generateSubjectContentRequest = async (content: string) => {
+  const response = await fetch(`${BASE_BACKEND_URL}/generate-subject-content`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ content: content })
+  })
+  if (!response.ok) {
+    return { error: 'Falha ao gerar o conteúdo.' }
+  }
+
+  return await response.json()
+}
+
 export const getRoadmapsRequest = async (
   token: string,
   email: string

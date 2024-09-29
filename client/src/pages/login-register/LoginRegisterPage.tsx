@@ -11,6 +11,10 @@ const LoginRegisterPage = () => {
     if (localStorage.getItem('roadmapToBeSaved')) {
       setHasRoadmapToSave(true)
     }
+
+    setTimeout(() => {
+      setHasRoadmapToSave(false)
+    }, 5000)
   }, [])
 
   return (

@@ -64,7 +64,6 @@ const Register = () => {
     if (hasErrors) return
 
     const response = await register(userData)
-    console.log(response)
 
     if (response.error) {
       setErrorMessage(Object.values(response.error)[0])

@@ -22,5 +22,6 @@ urlpatterns = [
     re_path('generate-roadmap', roadmaps_views.generate_roadmap),
 
     re_path('save-roadmap', roadmaps_views.save_roadmap),
+    re_path('generate-subject-content', roadmaps_views.generate_subject_content),
     re_path('get-roadmaps', roadmaps_views.get_roadmaps),
 ]

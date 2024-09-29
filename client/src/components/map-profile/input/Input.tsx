@@ -5,6 +5,7 @@ import { useAttributesContext } from '../../../contexts/useAttributesContext'
 const MapAttributesInput = () => {
   const { selectedAttributes, setSelectedAttributes } = useAttributesContext()
   const [isMobile, setIsMobile] = useState<boolean>(false)
+  const [inputValue, setInputValue] = useState('')
 
   const handleAddAttribute = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -22,6 +23,7 @@ const MapAttributesInput = () => {
       if (alreadyAdded) return
 
       setSelectedAttributes((prevSelected) => [...(prevSelected || []), newAttribute])
+      setInputValue('')
     }
   }
 
@@ -36,6 +38,8 @@ const MapAttributesInput = () => {
         type="text"
         placeholder={`Escreva aqui alguns atributos sobre você ${!isMobile ? 'ou interesses' : ''}`}
         onKeyDown={handleAddAttribute}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
       <div className="input-description">
         Quanto mais atributos, melhor para mapear carreiras compatíveis com você.

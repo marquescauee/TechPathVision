@@ -1,0 +1,33 @@
+.markdown-container h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.markdown-container ul,
+.markdown-container ol {
+  list-style-type: none;
+}
+
+.markdown-container li {
+  margin-bottom: .5rem;
+}
+
+.markdown-container pre {
+  color: #98E8BF;
+  margin: 1rem;
+}
+
+.markdown-container a,
+.markdown-container a:hover {
+  color: #98E8BF;
+  text-decoration: underline;
+}
+
+.markdown-container code {
+  color: #98E8BF;
+  font-weight: bold;
+}
+
+.markdown-container hr {
+  border-top: 1px solid #5E7A96;
+}

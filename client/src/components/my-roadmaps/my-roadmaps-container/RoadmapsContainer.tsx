@@ -39,7 +39,7 @@ const RoadmapsContainer = () => {
   return (
     <div className="roadmaps-container">
       {userRoadmaps.map((roadmap, index) => {
-        const imageIndex = (index % 7) + 1
+        const imageIndex = (index % 5) + 1
         return (
           <a
             key={roadmap.title}

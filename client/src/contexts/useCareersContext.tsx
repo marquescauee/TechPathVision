@@ -1,8 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext, useState } from 'react'
 import { Career } from '../interfaces/Career'
 import { mapProfileRequest } from '../routes/careers'
 import { Roadmap } from '../interfaces/Roadmap'
-import { generateRoadmapRequest, getRoadmapsRequest, saveRoadmapRequest } from '../routes/roadmap'
+import {
+  generateRoadmapRequest,
+  generateSubjectContentRequest,
+  getRoadmapsRequest,
+  saveRoadmapRequest
+} from '../routes/roadmap'
 
 interface CareersContextType {
   mappedCareers: Career[]
@@ -16,6 +22,7 @@ interface CareersContextType {
     error?: string
   }>
   saveRoadmap(token: string, roadmap: Roadmap): Promise<{ error?: string }>
+  generateSubjectContent(content: string): Promise<any>
   getRoadmaps(token: string, email: string): Promise<{ error: string } | Roadmap[]>
 }
 
@@ -39,23 +46,40 @@ export const CareersProvider: React.FC<CareersProviderProps> = ({ children }) =>
   const mapProfile = async (profile: string[]): Promise<{ error?: string }> => {
     const data = await mapProfileRequest(profile)
 
+    const cleanData = data.slice(3, -3)
+
+    const formattedJson = cleanData.replace('json', '')
+
     if (data.error) {
       return { error: data.error }
     }
 
-    setMappedCareers(data)
-    return data
+    const mappedCareersArray = JSON.parse(formattedJson)
+    setMappedCareers(mappedCareersArray)
+
+    localStorage.setItem('careers', JSON.stringify(mappedCareersArray))
+
+    return mappedCareersArray
   }
 
   const generateRoadmap = async (careerTitle: string): Promise<{ error?: string }> => {
     const data = await generateRoadmapRequest(careerTitle)
 
+    const cleanData = data.slice(3, -3)
+    const formattedJson = cleanData.replace('json', '')
+
     if (data.error) {
       return { error: data.error }
     }
 
-    setMappedRoadmap(data)
-    return data
+    const mappedRoadmapArray = JSON.parse(formattedJson)
+    mappedRoadmapArray.title = careerTitle
+
+    setMappedRoadmap(mappedRoadmapArray)
+
+    localStorage.setItem('roadmap', JSON.stringify(mappedRoadmapArray))
+
+    return mappedRoadmapArray
   }
 
   const saveRoadmap = async (token: string, roadmap: Roadmap): Promise<{ error?: string }> => {
@@ -66,6 +90,16 @@ export const CareersProvider: React.FC<CareersProviderProps> = ({ children }) =>
     }
 
     setMappedRoadmap(data)
+    return data
+  }
+
+  const generateSubjectContent = async (content: string) => {
+    const data = await generateSubjectContentRequest(content)
+
+    if (data.error) {
+      return { error: data.error }
+    }
+
     return data
   }
 
@@ -94,7 +128,8 @@ export const CareersProvider: React.FC<CareersProviderProps> = ({ children }) =>
         saveRoadmap,
         getRoadmaps,
         setShowSavedRoadmap,
-        showSavedRoadmap
+        showSavedRoadmap,
+        generateSubjectContent
       }}>
       {children}
     </CareersContext.Provider>
