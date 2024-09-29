@@ -12,13 +12,13 @@ urlpatterns = [
     re_path('update-user', user_views.update_user),
     re_path('get-user', user_views.get_user),
 
-    re_path('get-attributes', attributes_views.get_attributes),
-    re_path('send-attributes', attributes_views.send_attributes),
+    re_path('get-attributes', attributes_views.get_attributes, name='get_attributes'),
+    re_path('send-attributes', attributes_views.send_attributes, name='send_attributes'),
 
     path('password-reset-request', auth_views.password_reset_request, name='password_reset_request'),
     path('password-reset-confirm/<uuid:token>', auth_views.password_reset_confirm, name='password_reset_confirm'),
 
-    re_path('map-profile', profile_views.map_profile),
+    re_path('map-profile', profile_views.map_profile, name='map_profile'),
     re_path('generate-roadmap', roadmaps_views.generate_roadmap),
 
     re_path('save-roadmap', roadmaps_views.save_roadmap),
