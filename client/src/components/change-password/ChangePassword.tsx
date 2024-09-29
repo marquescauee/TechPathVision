@@ -72,11 +72,11 @@ const ChangePassword = () => {
     const urlToken = window.location.pathname.split('/')[2]
     const response = await changePassword(passwordData.newPassword, urlToken)
 
-    if (response.error) {
+    if (response?.error) {
       setErrorMessage(response.error)
     }
 
-    if (response.data) {
+    if (response?.data) {
       await login({ email: response.data.user.email, password: passwordData.newPassword })
     }
 

@@ -24,7 +24,7 @@ const Header = () => {
     <header className="header">
       <Logo />
       {!isLoggedIn ? (
-        <a href="/login" className="login-redirect-wrapper">
+        <a href="/login" className="login-redirect-wrapper" data-testid="login-redirect-wrapper">
           <LoginButton />
         </a>
       ) : (
