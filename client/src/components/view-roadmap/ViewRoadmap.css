@@ -116,11 +116,35 @@
 
 .modal-body-content-link,
 .modal-body-content-link:hover {
-  display: block;
+  display: flex;
   color: #98E8BF;
   margin: 1rem 0;
   text-decoration: none;
   width: fit-content;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-body-content-link::after {
+  content: '';
+  background-image: url(assets/click.png);
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 15px;
+}
+
+.documentation-url::after {
+  content: '';
+  background-image: url(assets/external-link.png);
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 15px;
 }
 
 .modal-body-paragraphs {
