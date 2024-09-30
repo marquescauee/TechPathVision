@@ -46,40 +46,31 @@ export const CareersProvider: React.FC<CareersProviderProps> = ({ children }) =>
   const mapProfile = async (profile: string[]): Promise<{ error?: string }> => {
     const data = await mapProfileRequest(profile)
 
-    const cleanData = data.slice(3, -3)
-
-    const formattedJson = cleanData.replace('json', '')
-
     if (data.error) {
       return { error: data.error }
     }
 
-    const mappedCareersArray = JSON.parse(formattedJson)
-    setMappedCareers(mappedCareersArray)
+    setMappedCareers(data)
 
-    localStorage.setItem('careers', JSON.stringify(mappedCareersArray))
+    localStorage.setItem('careers', JSON.stringify(data))
 
-    return mappedCareersArray
+    return data
   }
 
   const generateRoadmap = async (careerTitle: string): Promise<{ error?: string }> => {
     const data = await generateRoadmapRequest(careerTitle)
 
-    const cleanData = data.slice(3, -3)
-    const formattedJson = cleanData.replace('json', '')
-
     if (data.error) {
       return { error: data.error }
     }
 
-    const mappedRoadmapArray = JSON.parse(formattedJson)
-    mappedRoadmapArray.title = careerTitle
+    data.title = careerTitle
 
-    setMappedRoadmap(mappedRoadmapArray)
+    setMappedRoadmap(data)
 
-    localStorage.setItem('roadmap', JSON.stringify(mappedRoadmapArray))
+    localStorage.setItem('roadmap', JSON.stringify(data))
 
-    return mappedRoadmapArray
+    return data
   }
 
   const saveRoadmap = async (token: string, roadmap: Roadmap): Promise<{ error?: string }> => {

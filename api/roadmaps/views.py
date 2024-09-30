@@ -66,8 +66,8 @@ def generate_roadmap(request):
     serializer = CareerSerializer(data=career)
 
     if serializer.is_valid():
-        model = 'llama3.2:3b'
-        question = f'Tomando como base a área de {career}, elabore um roadmap de estudos que tenha no mínimo 2 assuntos. Crie um JSON e para cada assunto, informe seu título e o máximo de informações possível sobre aquele assunto. Seja bem extenso, pois o iniciante que estiver lendo precisa ter o máximo de informações possível. Além disso, forneça um campo no JSON com sites que abordem aquele assunto. Se você não possui certeza que o link está ativo, informe apenas o nome do site/empresa que fornece conhecimento sobre. Retorne apenas o JSON com os subjects, sem texto antes ou depois. O roadmap deve ser retornado em ordem de estudo e sequencial, de modo a guiar o usuário. Não repita subjects. O seu resultado para a descrição deve ter as mesmas chaves e ser maior do que a do seguinte exemplo: {jsonExample}'
+        model = 'qwen2.5:3b'
+        question = f'Tomando como base a área de {career}, elabore um roadmap de estudos que tenha no mínimo 10 assuntos. Crie um JSON e para cada assunto, informe seu título e o máximo de informações possível sobre aquele assunto. Seja bem extenso, pois o iniciante que estiver lendo precisa ter o máximo de informações possível. NÃO UTILIZE ASPAS SIMPLES NO JSON, OU SEJA, SEMPRE UTILIZE ASPAS DUPLAS. Além disso, forneça um campo no JSON com sites que abordem aquele assunto. Se você não possui certeza que o link está ativo, informe apenas o nome do site/empresa que fornece conhecimento sobre. Retorne apenas o JSON com os subjects, sem texto antes ou depois. O roadmap deve ser retornado em ordem de estudo e sequencial, de modo a guiar o usuário. Não repita subjects. O seu resultado para a descrição deve ter as mesmas chaves e ser maior do que a do seguinte exemplo: {jsonExample}'
 
         json_example_str = json.dumps(jsonExample)
         json_career = json.dumps(career)
@@ -81,7 +81,13 @@ def generate_roadmap(request):
           }
         ], stream=False)
 
-        return Response(response['message']['content'], status=status.HTTP_201_CREATED)
+        print(response['message']['content'])
+
+        json_response = json.loads(response['message']['content'].replace("'", '"'))
+
+        print(json_response)
+
+        return Response(json_response, status=status.HTTP_201_CREATED)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -92,7 +98,7 @@ def generate_subject_content(request):
 
     content = request.data['content']
 
-    model = 'llama3.2:3b'
+    model = 'qwen2.5:3b'
     question = f'com base no conteudo {content}, gere um texto mais explicativo possível sobre o mesmo. Retorne no formato de markdown, fazendo o uso de titulos, listas, links ou outros recursos disponívies. Se for utilizar linhas horizontais, utilize o formato markdown para isso. Sempre que for informar trechos de código que representem o tópico, utilize formatações markdown para <pre> e <code>. Não fale nada antes ou depois do texto gerado. Exemplo de texto: {textExample}. Forneça o máximo de informações possível. Sua resposta deve ser maior que o exemplo.'
 
     json_content = json.dumps(content)

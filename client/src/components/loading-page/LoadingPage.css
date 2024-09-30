@@ -111,6 +111,12 @@ html:has(.loading-page-container),
   --translateZ: -90px;
 }
 
+@media screen and (min-width: 768px) {
+  .loading-page-title {
+    font-size: 1.5rem;
+  }
+}
+
 @keyframes box1 {
 
   0%,
