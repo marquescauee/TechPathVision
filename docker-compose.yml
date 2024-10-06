@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: TechPathVision
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: postgres_database
+
+  api:
+    build:
+      context: ./api
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:root@db/TechPathVision
+    volumes:
+      - ./api:/app
+    container_name: django_api
+
+  client:
+    build:
+      context: ./client
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+    volumes:
+      - ./client:/app
+      - node_modules:/usr/src/app/node_modules
+    container_name: react_client
+
+volumes:
+  postgres_data: {}
+  node_modules: {}

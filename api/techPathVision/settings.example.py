@@ -63,12 +63,12 @@ WSGI_APPLICATION = 'techPathVision.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': '',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'TechPathVision',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
