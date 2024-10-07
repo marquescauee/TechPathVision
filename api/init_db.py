@@ -36,7 +36,11 @@ data = [
     {"label": "Detalhista", "value": "DETALHISTA"},
 ]
 
+existing_values = {attr.value for attr in Attribute.objects.all()}
+
 for item in data:
-    Attribute.objects.create(**item)
+    if item["value"] not in existing_values:
+        Attribute.objects.create(**item)
+        print(f"Dados inseridos: {item['label']}")
 
 print("DADOS INSERIDOS COM SUCESSO!")
