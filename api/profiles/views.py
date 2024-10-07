@@ -40,7 +40,7 @@ def map_profile(request):
     serializer = ProfileSerializer(profile, data=request.data, partial=True)
 
     if serializer.is_valid():
-        model = 'llama3.1:8b'
+        model = 'llama3.2:3b'
         question = f'Mapeie NO MÍNIMO 5 áreas compatíveis com o perfil de usuário informado. Você deve retornar 5 áreas. Para cada área, você deve estruturar um JSON que contenha: título da área, descrição resumida e descrição detalhada. A descrição detalhada deve ser muito bem descrita, informando diversos detalhes da área. Responda apenas o array de JSON, sem textos adicionais antes ou depois. NÃO UTILIZE ASPAS SIMPLES NO JSON, OU SEJA, SEMPRE UTILIZE ASPAS DUPLAS. Os atributos são: {profile}. Para cada campo do JSON, você deve trazer a resposta em texto corrido. Não repita áreas com o mesmo título. Foque em trazer títulos que sejam noticiados na mídia ou em artigos. Por exemplo, desenvolvimento de aplicações envolve muitas áreas. Nesse caso, você deve quebrar essa área em outras, como Front-End, Back-End, Administrador de Banco de Dados, Arquiteto de Software e etc. No resumo, escreva em texto corrido sem utilizar frases curtas. Articule um pouco mais, com conectivos, conjunções, etc. O JSON pode ter as chaves "title", "shortDescription" e "longDescription1", "longDescription2" e etc. No fim, deve ter um campo "skills", em que você vai elencar as skills necessárias para aquela área. Diversifique ao máximo as áreas mapeadas, evitando informar áreas com características semelhantes. Utilize esse JSON como exemplo: {jsonExample}'
 
         json_example_str = json.dumps(jsonExample)
