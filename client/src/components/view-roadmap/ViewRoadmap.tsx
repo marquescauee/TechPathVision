@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { Roadmap } from '../../interfaces/Roadmap'
 import Spinner from '../spinner/Spinner'
 import MarkdownContent from '../markdown/Markdown'
-import { roadmapMock } from '../../mock/roadmapMock'
 
 interface ContentProps {
   title: string | undefined
@@ -81,7 +80,7 @@ const ViewRoadmap = () => {
       return
     }
 
-    setCurrentMappedRoadmap(roadmapMock)
+    setCurrentMappedRoadmap(mappedRoadmap)
   }, [mappedRoadmap])
 
   return (

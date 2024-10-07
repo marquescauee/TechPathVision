@@ -3,7 +3,6 @@ import './CareersFound.css'
 import { useEffect, useState } from 'react'
 import { Career } from '../../interfaces/Career'
 import { useCareersContext } from '../../contexts/useCareersContext'
-import { areas } from '../../mock/areas'
 
 interface CareersFoundProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
@@ -38,7 +37,7 @@ const CareersFound = ({ setLoading }: CareersFoundProps) => {
       return
     }
 
-    setCareers(areas)
+    setCareers(mappedCareers)
   }, [mappedCareers])
 
   return (
