@@ -35,5 +35,7 @@ CMD ollama serve & \
   python manage.py migrate roadmaps && \
   python manage.py makemigrations careers && \
   python manage.py migrate careers && \
+  python manage.py makemigrations users && \
+  python manage.py migrate users && \
   python init_db.py && \
   python manage.py runserver 0.0.0.0:8000
