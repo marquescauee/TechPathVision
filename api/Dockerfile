@@ -22,7 +22,7 @@ EXPOSE 8000
 
 CMD ollama serve & \
   sleep 5 && \
-  if ! ollama list | grep -q 'llama3.2:3b'; then \
+  if ! ollama list | grep -q 'llama3.1:8b'; then \
   ollama pull llama3.2:3b; \
   fi && \
   python manage.py makemigrations && \
