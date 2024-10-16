@@ -27,15 +27,5 @@ CMD ollama serve & \
   fi && \
   python manage.py makemigrations && \
   python manage.py migrate && \
-  python manage.py makemigrations attributes && \
-  python manage.py migrate attributes && \
-  python manage.py makemigrations profiles && \
-  python manage.py migrate profiles && \
-  python manage.py makemigrations roadmaps && \
-  python manage.py migrate roadmaps && \
-  python manage.py makemigrations careers && \
-  python manage.py migrate careers && \
-  python manage.py makemigrations users && \
-  python manage.py migrate users && \
   python init_db.py && \
   python manage.py runserver 0.0.0.0:8000
