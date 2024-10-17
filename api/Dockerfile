@@ -23,9 +23,8 @@ EXPOSE 8000
 CMD ollama serve & \
   sleep 5 && \
   if ! ollama list | grep -q 'llama3.1:8b'; then \
-  ollama pull llama3.2:3b; \
+  ollama pull llama3.1:8b; \
   fi && \
-  python manage.py makemigrations && \
   python manage.py migrate && \
   python init_db.py && \
   python manage.py runserver 0.0.0.0:8000
