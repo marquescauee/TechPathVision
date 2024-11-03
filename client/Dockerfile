@@ -1,6 +1,6 @@
 FROM node:20
 
-WORKDIR /app
+WORKDIR /client
 
 COPY package.json package-lock.json ./
 RUN npm install
